@@ -1,0 +1,57 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* account
+#	* base_vat
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 8.0-20160212\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-04-21 16:14+0000\n"
+"PO-Revision-Date: 2017-04-21 16:14+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: base_vat
+#: help:res.company,vat_check_vies:0
+msgid "If checked, Partners VAT numbers will be fully validated against EU's VIES service rather than via a simple format validation (checksum)."
+msgstr "Si se marca, el CIF/RUT de la empresa se validará contra el servicio europeo VIES VAT en lugar de sólo validar el formato."
+
+#. module: base_vat
+#: code:addons/base_vat/base_vat.py:135
+#, python-format
+msgid "Importing VAT Number [%s] is not valid !"
+msgstr "El RUT importado [%s] no es válido"
+
+#. module: base_vat
+#: view:res.partner:base_vat.view_partner_form
+msgid "RUT:"
+msgstr "RUT:"
+
+#. module: account
+#: view:website:account.report_invoice_document
+msgid "TIN:"
+msgstr "RUT:"
+
+#. module: account
+#: view:website:account.report_invoice_document
+msgid "TIN:"
+msgstr "RUT:"
+
+#. module: base_vat
+#: code:addons/base_vat/base_vat.py:158
+#, python-format
+msgid "The VAT number [%s] for partner [%s] does not seem to be valid. \n"
+"Note: the expected format is %s"
+msgstr "El RUT [%s] para la empresa [%s] no parece ser válido.\n"
+"Nota: el formato esperado es %s"
+
+#. module: base_vat
+#: code:addons/base_vat/base_vat.py:157
+#, python-format
+msgid "The VAT number [%s] for partner [%s] either failed the VIES VAT validation check or did not respect the expected format %s."
+msgstr "El RUT [%s] para la empresa [%s] o bien falla en la comprobación de validación VIES o no respeta el formato esperado %s."

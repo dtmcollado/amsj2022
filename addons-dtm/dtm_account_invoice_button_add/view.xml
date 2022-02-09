@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+        <record id="inherit_account_invoice_button" model="ir.ui.view">
+            <field name="name">account.invoice.button.inherit</field>
+            <field name="model">account.invoice</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="account.invoice_supplier_form"/>
+            <field name="arch" type="xml">
+
+
+                <xpath expr="//field[@name='check_total']" position='after'>
+                    <button 
+                        class="oe_inline oe_stat_button" 
+                        type="object"
+                        string="CFE"
+                        name="func_vacia"
+                        icon="fa-download"
+                        />
+
+                </xpath>
+
+            </field>
+        </record>
+    </data>
+</openerp>

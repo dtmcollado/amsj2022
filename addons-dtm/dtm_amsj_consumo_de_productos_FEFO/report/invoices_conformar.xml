@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <template id="invoices_conformar">
+            <!--<style>-->
+                <!--<t t-call="dtm_report_layouts.style_dtm"/>-->
+                <!--.table-no-border td {-->
+                <!--border-style: none !important;-->
+                <!--}-->
+            <!--</style>-->
+            <!--<t t-call="dtm_report_layouts.external_layout_dtm_mtop">-->
+                <t t-call="report.external_layout">
+                <div class="page">
+                    <div class="row" style='padding-bottom: 20px;padding-top: 15px; text-align:center'>
+                        <h3>
+                            <t t-esc="report_title"/>
+                        </h3>
+
+
+                    </div>
+                    <div class="row" style='padding-bottom: 20px;padding-top: 15px; text-align:left'>
+                        <tr>
+                        <h4>
+                            <t t-esc="rango_fechas"/>
+
+                        </h4>
+                        </tr>
+
+                        <tr>
+                            <h4>
+                                <t t-esc="filtro_1"/>
+                            </h4>
+                        </tr>
+                         <tr>
+                            <h4>
+                                <t t-esc="filtro_2"/>
+                            </h4>
+                        </tr>
+                         <tr>
+                            <h4>
+                                <t t-esc="filtro_3"/>
+                            </h4>
+                        </tr>
+
+                    </div>
+                            <div class="row">
+                                <table class="table table-no-border">
+                                    <thead>
+                                        <tr>
+                                            <th style='text-align:left;white-space:nowrap;'>Categoria de producto</th>
+                                            <th style='text-align:left;white-space:nowrap;'>Ubicación Salida</th>
+                                            <th style='text-align:left;white-space:nowrap;'>Monto Valorado FIFO</th>
+                                            <th style='text-align:right;white-space:nowrap;'>Monto Valorado Ult. Compra</th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <t t-foreach="lineas" t-as="linea">
+                                            <tr>
+
+
+                                                        <td>
+                                                            <t t-esc="linea['categoria']"/>
+                                                        </td>
+
+                                                        <td>
+                                                            <t t-esc="linea['origen']"/>
+                                                        </td>
+
+                                                        <td>
+                                                            <t t-esc="currency_fmt(linea['fifo'])"/>
+                                                        </td>
+
+
+                                                        <td>
+                                                            <t t-esc="currency_fmt(linea['compra'])"/>
+                                                        </td>
+
+
+
+
+
+
+
+
+                                            </tr>
+                                        </t>
+                                    </tbody>
+                                </table>
+
+                                 <br />
+                    <br />
+                    <br />
+                    <br />
+
+                            <div class="row">
+                                <div class="col-xs-6 text-center">
+                                    <p>usuario: Admin / fecha de emisión: 19/08/2019</p>
+                                </div>
+
+                            </div>
+
+
+                            </div>
+                            <div style="page-break-after:always"/>
+                        <!--</t>-->
+                    <!--</t>-->
+                </div>
+            </t>
+        </template>
+    </data>
+</openerp>

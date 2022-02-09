@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data>
+		<record id="company_form_amsj" model="ir.ui.view">
+            <field name="model">res.company</field>
+			<field name="inherit_id" ref="base.view_company_form" />
+			<field name="arch" type="xml">
+				<field name="website" position="after">
+
+                        <label for="amsj2" string="Proveedor Compras Centralizadas"/>
+                        <div>
+                            <div>
+
+                                <field name="cocemi_id" placeholder="COCEMI ID" class="oe_inline"/>
+                            </div>
+
+                        </div>
+
+				</field>
+			</field>
+		</record>
+	</data>
+</openerp>

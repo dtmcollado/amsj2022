@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+
+        <record id="view_inventory_form_amsj_inherited" model="ir.ui.view">
+            <field name="name">stock.inventory.form.inherited</field>
+            <field name="model">stock.inventory</field>
+            <field name="inherit_id" ref="stock.view_inventory_form"/>
+            <field name="arch" type="xml">
+
+
+                <field name="filter" position="after">
+                    <field name="create_date"/>
+                    <field name="create_uid"/>
+                    <field name="inv_por_contabilidad"/>
+
+                </field>
+
+                <field name="product_id" position="after">
+                    <field name="write_date"/>
+                    <field name="write_uid"/>
+                    <field name="fecha_confirmacion" attrs="{'invisible':[('state','not in',('confirm','done'))]}"/>
+                    <field name="confirmado_por" attrs="{'invisible':[('state','not in',('confirm','done'))]}"/>
+                    <field name="fecha_validacion" attrs="{'invisible':[('state','!=','done')]}"/>
+                    <field name="validado_por" attrs="{'invisible':[('state','!=','done')]}"/>
+                </field>
+
+                <page string="Inventory Adjustments" position="after">
+                    <page string="Historial de modificaciones">
+                        <field name="lineas_historial_modificaciones" nolabel="1" readonly="True">
+                            <tree string="lineas">
+                                <field name="stock_inventory_id" invisible="True"/>
+                                <field name="fecha_modificacion"/>
+                                <field name="modificado_por"/>
+
+                            </tree>
+
+                        </field>
+
+                    </page>
+
+
+
+                </page>
+            </field>
+
+
+        </record>
+
+
+    </data>
+</openerp>

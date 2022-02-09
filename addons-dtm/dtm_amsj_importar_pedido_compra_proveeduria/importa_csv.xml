@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+
+        <record id="gen_inv_wizard_proveeduria_view_form" model="ir.ui.view">
+            <field name="name">Compras</field>
+            <field name="model">gen.central.proveeduria</field>
+            <field name="arch" type="xml">
+                <form string="">
+                    <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="date"/>
+                    </group>
+
+                    <group>
+                        <field name="columna_producto"/>
+                        <field name="columna_cantidad"/>
+                        <field name="columna_importe"/>
+                    </group>
+
+                    <group>
+                        <field name="file" />
+                    </group>
+
+                        <br/>
+                        <group>
+                           <field name="archivo_nombre" invisible="1"/>
+                           <field name="archivo_contenido" filename="archivo_nombre" readonly="1"/>
+                           <field name="bandera" widget="many2onebutton" invisible="1"/>
+                    </group>
+                        <br/>
+
+
+                        <field name="mostrar" readonly="1" style="color:blue"/>
+                        <field name="archivo_para_errores" invisible="1" style="color:blue"/>
+                        <field name="archivo_errores_contenidos" filename="archivo_para_errores" readonly="1"/>
+
+                        <br/>
+                    <button class="oe_stat_button" name="import_csv" icon="fa-cloud-upload" string="Importar" type="object" style="margin:80px 20px 20px 345px"></button>
+
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="amsj_gen_inv_wizard_proveeduria_action" model="ir.actions.act_window">
+            <field name="name">Importar CSV</field>
+            <field name="res_model">gen.central.proveeduria</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="target">current</field>
+        </record>
+
+<!--            <menuitem-->
+<!--                action="dtm_amsj_importar_stock_maximo_action"-->
+<!--                name="Importar stock máximo"-->
+<!--                id="menu_importar_stock_max"-->
+<!--                parent="purchase.menu_procurement_management_product"-->
+<!--                sequence="15"-->
+<!--        />-->
+
+
+
+
+    </data>
+</openerp>
+ 

@@ -1,0 +1,98 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* product_cost_price_from_bom
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 8.0-20150519\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-06-17 14:53+0000\n"
+"PO-Revision-Date: 2016-06-17 16:56+0200\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: \n"
+"Language: en\n"
+"X-Generator: Poedit 1.8.4\n"
+
+#. module: product_cost_price_from_bom
+#: field:product.product,cost_price:0 field:product.template,cost_price:0
+msgid "Calculated cost price"
+msgstr "Wyliczony koszt"
+
+#. module: product_cost_price_from_bom
+#: view:product_cost_price.wizard:product_cost_price.wizard_form_view
+msgid "Cancel"
+msgstr "Anuluj"
+
+#. module: product_cost_price_from_bom
+#: field:product_cost_price.wizard,cost_price:0
+msgid "Cost price"
+msgstr "Koszt"
+
+#. module: product_cost_price_from_bom
+#: field:product_cost_price.wizard,create_uid:0
+msgid "Created by"
+msgstr "Created by"
+
+#. module: product_cost_price_from_bom
+#: field:product_cost_price.wizard,create_date:0
+msgid "Created on"
+msgstr "Created on"
+
+#. module: product_cost_price_from_bom
+#: field:product_cost_price.wizard,id:0
+msgid "ID"
+msgstr "ID"
+
+#. module: product_cost_price_from_bom
+#: field:product_cost_price.wizard,write_uid:0
+msgid "Last Updated by"
+msgstr "Last Updated by"
+
+#. module: product_cost_price_from_bom
+#: field:product_cost_price.wizard,write_date:0
+msgid "Last Updated on"
+msgstr "Last Updated on"
+
+#. module: product_cost_price_from_bom
+#: field:product.product,has_bom:0 field:product.template,has_bom:0
+msgid "Manufactured here?"
+msgstr "Produkowane tu?"
+
+#. module: product_cost_price_from_bom
+#: model:ir.model,name:product_cost_price_from_bom.model_product_product
+msgid "Product"
+msgstr "Produkt"
+
+#. module: product_cost_price_from_bom
+#: model:ir.model,name:product_cost_price_from_bom.model_product_template
+msgid "Product Template"
+msgstr "Szablon produktu"
+
+#. module: product_cost_price_from_bom
+#: field:product_cost_price.wizard,product_ids:0
+msgid "Product Variants"
+msgstr "Warianty produktu"
+
+#. module: product_cost_price_from_bom
+#: view:product_cost_price.wizard:product_cost_price.wizard_form_view
+msgid "Set cost price"
+msgstr "Ustaw koszt"
+
+#. module: product_cost_price_from_bom
+#: model:ir.actions.act_window,name:product_cost_price_from_bom.launch_set_cost_price_wizard
+msgid "Set cost prices"
+msgstr "Ustaw koszty"
+
+#. module: product_cost_price_from_bom
+#: view:product.template:product_cost_price_from_bom.view_template_property_form_cost
+msgid "Update calculated cost prices"
+msgstr "Aktualizuj wyliczone koszty"
+
+#. module: product_cost_price_from_bom
+#: view:product_cost_price.wizard:product_cost_price.wizard_form_view
+msgid "or"
+msgstr "lub"

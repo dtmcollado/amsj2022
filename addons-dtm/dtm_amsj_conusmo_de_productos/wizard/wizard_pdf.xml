@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="wizard" model="ir.ui.view">
+            <field name="name">Consumos PDF</field>
+            <field name="model">wizard.pdf</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Consumos">
+                    <header>
+                        <button
+                                name="action_report"
+                                string="Crear PDF"
+                                type="object"
+                                class="oe_highlight"/>
+
+
+                       <button string="_Cancel" class="oe_link"
+                            special="cancel" />
+                    </header>
+
+                    <group>
+
+                        <group string="Rango de fechas a Consultar">
+                            <group>
+                                <field name="fecha_inicial" string="Fecha Desde" required="True"/>
+                            </group>
+                            <group>
+                                <field name="fecha_final" string="Fecha Hasta" required="True"/>
+                            </group>
+
+                            <newline/>
+                        </group>
+
+
+
+
+                    </group>
+
+
+                        <group>
+
+                            <field name="sector_ids"  required="True"
+                             options="{'no_quick_create':True,'no_create_edit': True, 'no_create':True}"/>
+                        </group>
+
+<!--                        <group string="Origen">-->
+<!--                            <field name="almacen_origen_ids" widget="many2many_tags"  options="{'no_quick_create':True,'no_create_edit': True, 'no_create':True}"/>-->
+<!--                            <newline/>-->
+<!--                            <field name="origen_ids" widget="many2many_tags"  options="{'no_quick_create':True,'no_create_edit': True, 'no_create':True}"/>-->
+<!--                        </group>-->
+
+
+                </form>
+            </field>
+        </record>
+
+        <!-- ***************************************************************************** -->
+
+        <!-- Action  wizard -->
+        <record id="wizard_genera_pdf_action" model="ir.actions.act_window">
+            <field name="name">Consumos</field>
+            <field name="res_model">wizard.pdf</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="wizard"/>
+            <field name="target">new</field>
+        </record>
+
+        <menuitem id="menu_consumo_pdf" name="Informe de Consumos PDF"
+                  parent="account.menu_finance_reporting"
+                  action="wizard_genera_pdf_action" sequence="82"
+        />
+
+    </data>
+</openerp>

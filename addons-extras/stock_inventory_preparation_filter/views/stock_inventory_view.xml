@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+        <record model="ir.ui.view" id="stock_inventory_form">
+            <field name="name">stock.inventory.form</field>
+            <field name="model">stock.inventory</field>
+            <field name="inherit_id" ref="stock.view_inventory_form" />
+            <field name="arch" type="xml">
+                <data>
+
+                    <field name="location_id" position="attributes">
+
+                    <attribute name="options">{'no_create': True, 'no_quick_create': True, 'no_create_edit':True}</attribute>
+
+
+                </field>
+
+                    <field name="location_id" position="after">
+                        <field name="domain_product_ids" invisible="True"/>
+                    </field>
+
+                    <notebook position="attributes">
+                        <attribute name="attrs" />
+                    </notebook>
+                    <page string="Inventory Details" position="attributes">
+                        <attribute name="attrs">{'invisible':[('state','=','draft')]}</attribute>
+                    </page>
+                    <notebook position="before">
+                        <group>
+                            <field name="categ_ids"
+                                   nolabel="1"
+                                   attrs="{'invisible':[('filter','!=','categories')]}" />
+                          <field name="sector_ids"
+                                   nolabel="1"
+                                   attrs="{'invisible':[('filter','!=','sectores')]}" />
+                            <field name="group_ids"
+                                   nolabel="1"
+                                   attrs="{'invisible':[('filter','!=','groups')]}" />
+                            <field name="product_ids"
+                                   nolabel="1"
+                                   attrs="{'invisible':[('filter','!=','products')]}" />
+                            <field name="lot_ids"
+                                   nolabel="1"
+                                   attrs="{'invisible':[('filter','!=','lots')]}" />
+                            <field name="tipo_ids"
+                                   nolabel="1"
+                                   attrs="{'invisible':[('filter','!=','tipos')]}" />
+
+                              <field name="categ_interna_ids"
+                                   nolabel="1"
+                                   attrs="{'invisible':[('filter','!=','categoria_interna')]}" />
+
+                        </group>
+                    </notebook>
+                    <notebook position="inside">
+                        <page string="Capture Lines"
+                            attrs="{'invisible':[('filter','!=','empty')]}">
+                            <field name="empty_line_ids" nolabel="1">
+                                <tree editable="bottom">
+                                    <field name="product_code"/>
+                                    <field name="product_qty"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </data>
+            </field>
+        </record>
+
+
+        <record model="ir.ui.view" id="stock_inventory_form_inherited">
+            <field name="name">stock.inventory.form.inherited</field>
+            <field name="model">stock.inventory</field>
+            <field name="inherit_id" ref="stock.view_inventory_form" />
+            <field name="arch" type="xml">
+
+
+                <field name="line_ids" position="replace">
+                    <field name="line_ids" string="Inventory Details" context="{'default_location_id': location_id,  'default_product_id': product_id, 'default_prod_lot_id': lot_id, 'default_package_id': package_id, 'default_partner_id': partner_id, 'default_domain_product_ids':domain_product_ids}">
+                                <tree string="Inventory Details" editable="bottom" colors="blue: product_qty != theoretical_qty; red: theoretical_qty &lt; 0">
+                                    <field name="product_id" domain="[('id','in', domain_product_ids[0][2])]" on_change="onchange_createline(location_id, product_id, product_uom_id, package_id, prod_lot_id, partner_id)"/>
+                                <field name="product_name" readonly="True"/>
+                                    <field name="familia_id"/>
+                                    <field name="generico"/>
+                                  <field name="presentacion"/>
+                                    <field name="domain_product_ids" invisible="True"/>
+                                    <field name="product_uom_id" groups="product.group_uom" string="UoM" on_change="onchange_createline(location_id, product_id, product_uom_id, package_id, prod_lot_id, partner_id)"/>
+                                    <field name="location_id" domain="[('id', 'child_of', parent.location_id)]" groups="stock.group_locations" on_change="onchange_createline(location_id, product_id, product_uom_id, package_id, prod_lot_id, partner_id)"/>
+                                    <field name="prod_lot_id" on_change="onchange_createline(location_id, product_id, product_uom_id, package_id, prod_lot_id, partner_id)" domain="[('product_id', '=', product_id)]" context="{'default_product_id': product_id}" groups="stock.group_production_lot"/>
+                                    <field name="package_id" domain="['|', ('location_id','=', False), ('location_id', '=', location_id)]" on_change="onchange_createline(location_id, product_id, product_uom_id, package_id, prod_lot_id, partner_id)" groups="stock.group_tracking_lot"/>
+                                    <field name="partner_id" on_change="onchange_createline(location_id, product_id, product_uom_id, package_id, prod_lot_id, partner_id)" groups="stock.group_tracking_owner"/>
+                                    <field name="theoretical_qty" readonly="1"/>
+                                    <field name="product_qty" string="Real Quantity"/>
+                                    <field name="state" invisible="True"/>
+                                </tree>
+                            </field>
+
+
+
+                </field>
+
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_stock_lotes_por_ubicacion_tree">
+            <field name="name">stock.quant.tree.por.ubicacion</field>
+            <field name="model">stock.quant</field>
+            <field eval="10" name="priority"/>
+            <field name="arch" type="xml">
+                <tree string="Lotes por ubicación" create="0" delete="0" colors="orange: expiry_state == 'best_before';
+                        blue: expiry_state == 'alert';
+                        gold: expiry_state == 'to_remove';
+                        green: expiry_state == 'normal';
+                        red: expiry_state == 'expired'">
+                    <field name="product_id"/>
+                    <field name="lot_id" />
+                    <field name="location_id"/>
+                    <field name="fecha_ven"/>
+                    <field name="expiry_state"/>
+                       <field name="qty"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_stock_lotes_por_ubicacion_search">
+            <field name="name">stock.quant.tree.por.ubicacion</field>
+            <field name="model">stock.quant</field>
+             <field name="arch" type="xml">
+            <search string="Lotes por ubicación">
+                    <field name="product_id"/>
+                    <field name="location_id"/>
+                    <field name="lot_id"/>
+                    <group expand="0" string="Filters">
+                        <filter string="Fecha de alerta" name="fecha_alerta_60_dias" domain="[('fecha_ven', '&gt;=', ((context_today()).strftime('%Y-%m-%d'))),('fecha_ven', '&lt;=', ((context_today()+relativedelta(months=2)).strftime('%Y-%m-%d')))]"/>
+                    </group>
+                    <group expand="0" string="Agrupar por...">
+                       <filter name="productgroup" string="Producto" context="{'group_by' : 'product_id'}"/>
+                       <filter string="Lote" context="{'group_by' : 'lot_id'}" />
+                        <filter string="Ubicación" context="{'group_by' : 'location_id'}" />
+                    </group>
+                </search>
+             </field>
+        </record>
+
+
+        <record model="ir.actions.act_window" id="action_lotes_por_ubicacion">
+            <field name="name">Lotes por ubicación</field>
+            <field name="res_model">stock.quant</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree</field>
+            <field name="search_view_id" ref="view_stock_lotes_por_ubicacion_search"/>
+            <field name="view_id" ref="view_stock_lotes_por_ubicacion_tree"/>
+            <field name="context">{'search_default_fecha_alerta_60_dias': 1}</field>
+        </record>
+
+        <menuitem
+                name="Lotes por ubicación"
+                id="menu_amsj_lotes_por_ubicacion"
+                action="action_lotes_por_ubicacion"
+                parent="stock.menu_traceability"
+                sequence="2"
+        />
+
+
+    </data>
+</openerp>

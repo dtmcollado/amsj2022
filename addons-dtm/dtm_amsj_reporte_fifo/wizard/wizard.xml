@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="wizard_reporte_fifo_form" model="ir.ui.view">
+            <field name="name">Valuación del inventario FIFO</field>
+            <field name="model">wizard_reporte_fifo</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Valuación del inventario FIFO">
+                    <header>
+                        <button
+                                name="action_reporte_fifo"
+                                string="FIFO Detalle"
+                                type="object"
+                                class="oe_highlight"/>
+
+                        <button
+                                name="action_reporte_fifo_resumen_nuevo"
+                                string="FIFO Resumen"
+                                type="object"
+                                class="oe_highlight"/>
+
+                              <button
+                                name="action_reporte_sin_detalle"
+                                string="Stock por ubicación"
+                                type="object"
+                                class="oe_highlight"/>
+                        o
+                        <button
+                                type='special'
+                                special='cancel'
+                                string='Cancelar'
+                                class="oe_link"
+                        />
+
+
+                    </header>
+
+
+                    <group>
+
+
+
+
+                        <group>
+
+                            <field name="date" />
+                              <field name="todos"/>
+                            <field name="product_id" options="{'no_quick_create':True,'no_create_edit': True}" attrs="{'invisible':[('todos','=',True)],'required':[('todos','=',False)]}"/>
+
+
+                        </group>
+
+                        <group>
+
+                            <field name="archivo_nombre" invisible="1"/>
+                           <field name="archivo_contenido" filename="archivo_nombre" invisible="1"/>
+                            <field name="category_id"/>
+
+                        </group>
+                    </group>
+
+
+                </form>
+            </field>
+        </record>
+
+        <!-- ***************************************************************************** -->
+
+        <record id="wizard_reporte_fifo_action" model="ir.actions.act_window">
+            <field name="name">Valuación del inventario FIFO</field>
+            <field name="res_model">wizard_reporte_fifo</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="wizard_reporte_fifo_form"/>
+            <field name="target">new</field>
+        </record>
+
+
+        <menuitem
+                id="menu_reporte_fifo"
+                name="Valuación del inventario FIFO"
+                parent="stock.menu_stock_inventory_control"
+                sequence="3"
+                action="wizard_reporte_fifo_action"
+        />
+
+
+    </data>
+</openerp>

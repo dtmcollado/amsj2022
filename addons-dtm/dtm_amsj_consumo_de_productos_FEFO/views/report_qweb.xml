@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <report
+                id="ot_report_informe"
+                string="Resumen del Trabajo"
+                model="account.exchange.rate.vat"
+                report_type="qweb-pdf"
+                file="dtm_vat_report.vat_exchange_informe_report"
+                name="dtm_vat_report.vat_exchange_report"
+        />
+
+        <template id="vat_exchange_report">
+            <style>
+                table {
+                font-family: arial, sans-serif;
+                border-collapse: collapse;
+                width: 100%;
+                }
+
+                td, th {
+                border: 1px solid #dddddd;
+                text-align: left;
+                padding: 8px;
+                }
+
+                tr:nth-child(even) {
+                background-color: #dddddd;
+                }
+            </style>
+            <t t-call="report.html_container">
+                <!--<t t-foreach="docs" t-as="o">-->
+                <t t-call="report.external_layout">
+                    <div class="page">
+                        <h1 class="text-center" style="font-style: italic">Consumos</h1>
+                        <br></br>
+                        <label for="inicio" string="Duracion"/>
+                        <div>
+                            <div class="text-left">
+                                <b>Fecha Desde:</b>
+                                <span t-field="docs.period_id.date_start" class="oe_inline" nolabel="1"/>
+                                <br></br>
+                                <b>Fecha Hasta:</b>
+                                <span t-field="docs.period_id.date_stop" class="oe_inline" nolabel="1"/>
+                            </div>
+                        </div>
+                        <!--<h3 class="text-center" style="font-style: italic">IVA 22 %</h3>-->
+                        <table class="table table-condensed">
+                            <thead>
+                                <tr>
+                                    <th>Fecha</th>
+                                    <th class="text-left">Comprobante</th>
+                                    <th class="text-left">Nro.&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;</th>
+                                    <th class="text-left">Cliente</th>
+                                    <th class="text-center">Subtotal</th>
+                                    <th class="text-center">Monto Gravado</th>
+                                    <th class="text-center">Monto Impuesto</th>
+                                    <th class="text-center">Total</th>
+                                    <th class="text-center">Total M/O</th>
+                                    <th class="text-center">T/C</th>
+                                </tr>
+                            </thead>
+                            <tbody class="invoice_tbody">
+                                <tr t-foreach="todas_facturas" t-as="fac">
+                                    <!--<t t-debug="ipdb"/>-->
+                                    <t t-if="fac.invoice_line[0].invoice_line_tax_id.id == 1">
+                                        <td class="text-right">
+                                            <span t-field="fac.date_invoice"/>
+                                        </td>
+                                        <t t-if="fac.type == 'out_invoice' and fac.payment_term.name == 'Contado'">
+                                            <td class="text-left">
+                                                <span>CONT</span>
+                                            </td>
+                                        </t>
+                                        <t t-if="fac.type == 'out_refund'">
+                                            <td class="text-left">
+                                                <span>NCRED</span>
+                                            </td>
+                                        </t>
+                                        <t t-if="fac.type == 'out_invoice' and fac.payment_term.name != 'Contado'">
+                                            <td class="text-left">
+                                                <span>CRED</span>
+                                            </td>
+                                        </t>
+                                        <td style="width: 9ch;" class="text-left">
+                                            <!--<t t-esc="get_nro_doc(fac.id)"/>-->
+                                            <t t-esc="get_nro_doc(fac.id)"/>
+
+                                        </td>
+                                        <td class="text-left">
+                                            <span t-field="fac.partner_id.name"/>
+                                        </td>
+
+                                        <t t-if="fac.type == 'out_invoice'">
+                                            <td class="text-right">
+                                                <span t-field="fac.cc_amount_untaxed"/><!--SIN IVA-->
+                                            </td>
+                                        </t>
+                                        <t t-if="fac.type == 'out_refund'">
+                                            <td class="text-right">
+                                                -
+                                                <span t-field="fac.cc_amount_untaxed"/><!--SIN IVA-->
+                                            </td>
+                                        </t>
+                                        <t t-if="fac.type == 'out_invoice'">
+                                            <td class="text-right">
+                                                <span t-field="fac.cc_amount_untaxed"/><!--SIN IVA-->
+                                            </td>
+                                        </t>
+                                        <t t-if="fac.type == 'out_refund'">
+                                            <td class="text-right">
+                                                -
+                                                <span t-field="fac.cc_amount_untaxed"/><!--SIN IVA-->
+                                            </td>
+                                        </t>
+
+                                        <t t-if="fac.type == 'out_invoice'">
+                                            <td class="text-right">
+                                                <span t-field="fac.cc_amount_tax"/><!--IVA-->
+                                            </td>
+                                        </t>
+                                        <t t-if="fac.type == 'out_refund'">
+                                            <td class="text-right">
+                                                -
+                                                <span t-field="fac.cc_amount_tax"/><!--IVA-->
+                                            </td>
+                                        </t>
+
+                                        <t t-if="fac.type == 'out_invoice'">
+                                            <td class="text-right">
+                                                <span t-field="fac.cc_amount_total"/><!--TOTAL-->
+                                            </td>
+                                            <td class="text-right">
+                                                <span t-field="fac.amount_total"/><!--TOTAL-->
+                                            </td>
+                                        </t>
+                                        <t t-if="fac.type == 'out_refund'">
+                                            <td class="text-right">
+                                                -
+                                                <span t-field="fac.cc_amount_total"/><!--TOTAL-->
+                                            </td>
+                                            <td class="text-right">
+                                                -
+                                                <span t-field="fac.amount_total"/><!--TOTAL Moneda Origen-->
+                                            </td>
+                                        </t>
+                                        <td class="text-right">
+                                            <t t-esc="round(fac.cc_amount_total / fac.amount_total,2)"/><!--TC-->
+                                        </td>
+                                    </t>
+
+                                </tr>
+                                <!--<tr class="border-black">-->
+                                <!--<td colspan="5" class="text-right">-->
+                                <!--<b><t t-esc="total_sin_iva_basica"/></b>-->
+                                <!--</td>-->
+                                <!--<td class="text-right">-->
+                                <!--<b><t t-esc="total_sin_iva_basica"/></b>-->
+                                <!--</td>-->
+                                <!--<td class="text-right">-->
+                                <!--<b><t t-esc="iva_total_basica"/></b>-->
+                                <!--</td>-->
+                                <!--<td class="text-right">-->
+                                <!--<b><t t-esc="total_total_basica"/></b>-->
+                                <!--</td>-->
+                                <!--</tr>-->
+                            </tbody>
+                        </table>
+
+
+                    </div>
+
+                </t>
+
+
+                <!--</t>-->
+            </t>
+
+        </template>
+
+        <template id="vat_exchange_informe_report">
+            <t t-call="report.html_container">
+                <t t-foreach="docs" t-as="d">
+                    <!--<t t-debug="ipdb"/>-->
+                    <t t-call="dtm_vat_report.vat_exchange_informe_report" t-lang="d.partner_id.lang"/>
+                </t>
+            </t>
+        </template>
+
+        <template id="report_vat">
+            <t t-call="report.html_container">
+                <t t-foreach="doc_ids" t-as="doc_id">
+                    <t t-raw="translate_doc(doc_id, doc_model, 'partner_id.lang', 'vat_exchange_report')"/>
+                </t>
+            </t>
+        </template>
+
+    </data>
+</openerp>
+

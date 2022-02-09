@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+
+        <record model="ir.ui.view" id="amsj_seguridad_productos">
+            <field name="name">Seguridad Productos</field>
+            <field name="model">res.groups</field>
+            <field name="inherit_id" ref="base.view_groups_form"/>
+            <field name="arch" type="xml">
+
+            <xpath expr="//page[@string='Notes']" position="after">
+                <page string="Sector-Producto">
+                    <h4>Agregar Sector</h4>
+                    <br/>
+                    <field name="sector" widget="many2many_tags"  options="{'no_create': True, 'no_create_edit':True}" />
+                 </page>
+            </xpath>
+                 
+
+            </field>
+        </record>
+        
+
+
+        <record model="ir.ui.view" id="amsj_product_template_seguridad">
+            <field name="name">Product Template Seguridad</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="dtm_amsj_productos.inherited_view_product_product_form"/>
+            <field name="arch" type="xml">
+
+                <field name="property_account_income" position="before">
+                    <field name="hide_action_buttons" invisible="True"/>
+                    <field name="current_user" invisible="True"/>
+                    
+
+                </field>
+                 
+
+            </field>
+        </record>
+
+
+       
+
+
+
+        </data>
+    </openerp>

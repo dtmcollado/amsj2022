@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+
+
+        <record model="ir.ui.view" id="action_stock_de_genericos_">
+            <field name="name">Stock por Genéricos</field>
+            <field name="model">dtm.amsj.stock.de.genericos</field>
+             <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Stock de Genericos"
+                      create="false" delete="false" edit="false" version="7.0"
+                      colors="red:diferencia'&lt;0"
+                >
+
+
+
+                   <field name= 'principio_activo_id'/>
+                   <field name= 'forma_farmaceutica_id'/>
+                   <field name= 'concentracion_valor'/>
+                   <field name= 'concentracion_unidad'/>
+                   <field name= 'stock_maximo'/>
+                    <field name='stock_actual'/>
+                    <field name= 'ubicacion_id'/>
+                    <field name= 'diferencia' invisible="1"/>
+                    <button name="ver_productos"  type="object" icon="gtk-go-forward" class="oe_highlight" />
+
+
+                </tree>
+            </field>
+        </record>
+
+
+
+        <!-- SEARCH -->
+        <record id="view_stock_de_genericos_serch" model="ir.ui.view">
+            <field name="name">Stock por Genéricos</field>
+            <field name="model">dtm.amsj.stock.de.genericos</field>
+            <field name="arch" type="xml">
+                <search string="Buscar por..">
+
+                    <field name="principio_activo_id" string="Generico" />
+                    <field name="forma_farmaceutica_id" string="Forma farmacéutica"/>
+                    <field name="ubicacion_id" string="por Ubicación"/>
+
+                 <separator/>
+
+                    <group expand="0" string="Agrupar por ...">
+
+<!--                        <filter string="Principio Activo" context="{'group_by': 'principio_activo_id'}"/>-->
+                        <filter string="Ubicación" context="{'group_by': 'ubicacion_id'}" />
+<!--                        <filter string="Forma Farmaceutica" context="{'group_by': 'name_forma_farmaceutica'}"/>-->
+
+                    </group>
+
+            </search>
+            </field>
+        </record>
+
+        <!--    INICIO WIZARD!!!!!!!!!!!!!!!!  -->
+        <record model="ir.ui.view" id="stock_genericos_wizard">
+            <field name="name">Productos que se controla stock máximo</field>
+            <field name="model">dtm.amsj.stock.de.genericos.wizard</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Stock Genéricos" version="7.0">
+                    <sheet>
+
+                    <field name="mostrar" />
+                         <field name="mostrar_stock" />
+
+
+
+                    <br/><br/> <br/><br/><br/><br/>
+                   <!--  <button name="gen_report_excel" string="Generar Excel" type="object" class="oe_highlight"/> -->
+                    <button string="Aceptar" class="oe_highlight" special="cancel" />
+
+                    </sheet>
+
+
+
+              </form>
+            </field>
+        </record>
+
+        <record id="stock_genericos_wizard_action" model="ir.actions.act_window">
+            <field name="name">Productos que se controla stock máximo</field>
+            <field name="res_model">dtm.amsj.stock.de.genericos.wizard</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+            <!--            fin wizard  !!!!!!!!!!!!!!!!-->
+
+
+
+        <!-- Form view Action for Project Milestone Invoicing -->
+        <record id="action_stock_de_genericos" model="ir.actions.act_window">
+            <field name="name">Stock por Genéricos</field>
+            <field name="res_model">dtm.amsj.stock.de.genericos</field>
+<!--            <field name="context">{'search_default_group_ubicacion_id': 1}</field>-->
+            <field name="view_type">form</field>
+<!--            <field name="view_mode">tree,graph</field>-->
+            <field name="view_mode">tree</field>
+
+
+         </record>
+
+          <menuitem name="por Genérico"
+                  id="menu_stock_root_genericos"
+                  parent="dtm_amsj_stock_critico.menu_stock_root"
+                  sequence="10"/>
+
+          <menuitem name="Listado"
+                  action="action_stock_de_genericos"
+                  id="menu_stock_de_genericos"
+                  parent="menu_stock_root_genericos"
+                  sequence="1"/>
+
+
+    </data>
+</openerp>
+
+

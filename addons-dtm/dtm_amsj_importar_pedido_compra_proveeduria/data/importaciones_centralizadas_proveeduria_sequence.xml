@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data noupdate="1">
+
+        <record id="sequence_importacion_proveeduria" model="ir.sequence.type">
+            <field name="name">Secuencia nro de importación centralizada proveeduria</field>
+            <field name="code">sec.nro.importacion_proveeduria</field>
+        </record>
+
+        <record id="sequence_nro_importacion_proveeduria_seq" model="ir.sequence">
+            <field name="name">Secuencia Nro de importación centralizada proveeduria</field>
+            <field name="code">sec.nro.importacion_proveeduria</field>
+            <field name="padding">5</field>
+            <field eval="1" name="number_next"/>
+            <field eval="1" name="number_increment"/>
+        </record>
+
+    </data>
+</openerp>

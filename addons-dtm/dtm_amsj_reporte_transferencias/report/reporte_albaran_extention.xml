@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <template id="report_picking_extention" inherit_id="stock.report_picking">
+
+            <div class="page" position="inside">
+                <h2><span>Nota:</span></h2>
+                <t t-esc="o.note"/>
+            </div>
+
+        </template>
+
+    </data>
+</openerp>

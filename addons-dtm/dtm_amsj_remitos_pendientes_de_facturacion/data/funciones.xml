@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data noupdate="0">
+        <record id="dtm_formula_remito_dif_no_fact" model="ir.config_parameter">
+            <field name="key">remito_dif_no_fact</field>
+            <field name="value">ROUND(D#-I#,0)</field>
+        </record>
+    </data>
+
+    <data noupdate="0">
+        <record id="dtm_formula_remito_total_pend" model="ir.config_parameter">
+             <field name="key">remito_total_pend</field>
+            <field name="value">ROUND(J#*K#,0)</field>
+        </record>
+    </data>
+
+
+</openerp>

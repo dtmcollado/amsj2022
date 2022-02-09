@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+	<data>
+        <record id="facturas_diferencia_entrega_tree" model="ir.ui.view">
+            <field name="name">Diferencia entrega tree</field>
+            <field name="model">facturas.diferencia.entrega</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <button name="factura_wizard" type="object" icon="STOCK_GOTO_TOP"/>
+                    <field name="supplier_invoice_number" string="Nro. de Factura del proveedor"/>
+                    <field name="partner_id" string="Proveedor"/>
+                    <field name="purchase_order" string="Pedido de compra"/>
+                    <field name="origin" string="Número de recepción"/>
+                    <button name="remito_wizard" type="object" icon="STOCK_GOTO_BOTTOM"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="search_facturas_diferencia_entrega" model="ir.ui.view">
+            <field name="name">search Diferencia entrega</field>
+            <field name="model">facturas.diferencia.entrega</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="supplier_invoice_number" string="Nro. de factura del proveedor"/>
+                    <field name="date_invoice" string="fecha de la factura"/>
+                    <field name="partner_id" string="Proveedor"/>
+                    <field name="origin" string="Número de recepción"/>
+                    <group expand="0" string="Group By">
+                        <filter string="Número de recepción" domain="[]" context="{'group_by':'origin'}"/>
+                    </group>
+                </search>
+             </field>
+         </record>
+
+		 <record id="action_facturas_diferencia_entrega" model="ir.actions.act_window">
+            <field name="name">Facturas con diferencia en la entrega</field>
+            <field name="res_model">facturas.diferencia.entrega</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="facturas_diferencia_entrega_tree"/>
+            <!--<field name="domain">[('diferencia','=',True)]</field>-->
+            <field name="search_view_id" ref="search_facturas_diferencia_entrega"/>
+        </record>
+
+		<menuitem id="menu_facturas_con_diferencia_entrega" name="Facturas con diferencia en la entrega"
+                  parent="purchase.menu_procurement_management_invoice"
+                  action="action_facturas_diferencia_entrega" sequence="70"
+        />
+
+	</data>
+</openerp>

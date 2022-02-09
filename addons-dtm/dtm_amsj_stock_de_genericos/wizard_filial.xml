@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="view_wizard_filial" model="ir.ui.view">
+            <field name="name">Stock máximo/actual</field>
+            <field name="model">wizard.filial.maximo</field>
+            <field name="arch" type="xml">
+                <form>
+
+                    <group>
+
+                        <newline/>
+                        <field name="sector_id" widget='selection'
+                               options="{'no_create': '1', 'no_create_edit': '1'}"/>
+                        <field name="location_id" string="Ubicación" widget='selection'
+                               options="{'no_create': '1', 'no_create_edit': '1'}"
+                        />
+
+
+                    </group>
+                    <footer>
+                        <button name="open_table" string="Consultar" type="object" class="oe_highlight"/>
+
+                        <button string="Cancelar" class="oe_link" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+        <record id="action_wizard_minimo" model="ir.actions.act_window">
+            <field name="name">Consulta Stock máximo/actual</field>
+            <field name="res_model">wizard.filial.maximo</field>
+            <field name="view_type">form</field>
+            <field name="view_id" ref="view_wizard_filial"/>
+            <field name="target">new</field>
+        </record>
+
+
+        <menuitem action="action_wizard_minimo"
+                  id="menu_filial_maximo_actual"
+                 parent="stock.menu_stock_warehouse_mgmt"
+                  sequence="10"/>
+    </data>
+</openerp>
+

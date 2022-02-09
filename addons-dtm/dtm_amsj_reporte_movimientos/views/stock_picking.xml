@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+  <data>
+
+    <record id="stock_picking_inherit" model="ir.ui.view">
+      <field name="name">fefefefew</field>
+      <field name="model">stock.picking</field>
+      <field name="inherit_id" ref="stock.view_picking_form" />
+      <field name="arch" type="xml">
+        <button name="do_unreserve" position="after">
+          <button
+            string="Etiquetas"
+            name="imprimir_etiquetas"
+            type="object"
+            class="oe_highlight"
+            atttrs="{'invisible':['state','!=','done']}"
+            states="done"
+          />
+        </button>
+      </field>
+    </record>
+
+  </data>
+
+</openerp>

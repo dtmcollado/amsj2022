@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+
+        <record id="dtm_amsj_stock_location_ventas_contado_form" model="ir.ui.view">
+            <field name="name">stock.location.inherit.ventas.contado</field>
+            <field name="model">stock.location</field>
+            <field name="inherit_id" ref="dtm_amsj_stock_critico.view_dtm_amsj_almacen_extension_form"/>
+            <field name="arch" type="xml">
+
+                <field name="active" position="after">
+                    <group string="Información para Canjes">
+                        <field name="laboratorio_id" options="{'no_create': True, 'no_create_edit':True}" />/>
+<!--                        <field name="dias_antes_vencimiento"/>-->
+                    </group>
+
+                </field>
+                
+            </field>
+        </record>
+
+        <record id="dtm_amsj_stock_location_warehouse_form" model="ir.ui.view">
+            <field name="name">stock.warehouse.inherit.ventas.contado</field>
+            <field name="model">stock.warehouse</field>
+            <field name="inherit_id" ref="stock.view_warehouse"/>
+            <field name="arch" type="xml">
+
+                <field name="code" position="after">
+                    <field name="emails_vencidos"/>
+                </field>
+
+            </field>
+        </record>
+
+
+    </data>
+</openerp>

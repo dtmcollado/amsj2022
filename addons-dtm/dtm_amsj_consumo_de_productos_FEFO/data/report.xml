@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <report
+                id="invoice_conformar_report"
+                model="wizard.consumos_pdf_fefo"
+                string="Informe Consumos"
+                report_type="qweb-pdf"
+                name="dtm_amsj_conusmo_de_productos.invoices_conformar"
+                file="dtm_amsj_conusmo_de_productos.invoices_conformar"
+                menu="False"
+        />
+
+    </data>
+</openerp>

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+
+<!--        dtm_amsj_vista_dinamica_productos-->
+        <record model="ir.ui.view" id="informe_consumos_dinamico">
+            <field name="name">Vista Dinaminca de Productos</field>
+            <field name="model">dtm.amsj.informe.consumos.dinamico</field>
+<!--             <field name="type">graph</field>-->
+            <field name="arch" type="xml">
+
+
+                <graph string="Vista Dinamica Productos" type="pivot" >
+
+
+<!--                    <field name="codigo" type="measure"/>-->
+                   <field name="cantidad" type="measure"/>
+                    <field name="origen" type="row" />
+                    <field name="destino" type="row" />
+                     <field name="producto" type="row"/>
+                    <field name="fecha" type="col" />
+
+
+                </graph>
+            </field>
+        </record>
+
+
+
+
+                    <!-- :::::::::::::::::::: vista tree ::::::::::::::::::::::: -->
+<!--        <record id="informe_consumos_dinamico_tree" model="ir.ui.view">-->
+<!--        <field name="name">Informe de Consumo</field>-->
+<!--        <field name="model">dtm.amsj.informe.consumos.dinamico</field>-->
+<!--        <field name="type">tree</field>-->
+<!--        <field name="arch" type="xml">-->
+<!--            <tree string="Informe de consumo">-->
+<!--                <field name="codigo"/>-->
+<!--                <field name="producto"/>-->
+<!--                 <field name="cantidad"/>-->
+<!--                <field name="origen"/>-->
+<!--                  <field name="destino"/>-->
+<!--                <field name="fecha"/>-->
+<!--            </tree>-->
+<!--        </field>-->
+<!--    </record>-->
+
+
+
+
+
+
+
+        <!-- Form view Action for Project Milestone Invoicing -->
+        <record id="action_informe_consumos_dinamico" model="ir.actions.act_window">
+            <field name="name">Productos</field>
+            <field name="res_model">dtm.amsj.informe.consumos.dinamico</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">graph</field>
+<!--            <field name="search_view_id" ref="search_informe_consumos_dinamico"/>-->
+<!--              <field name="context">{'search_default_group_almacen': 1}</field>-->
+         </record>
+
+
+
+
+        <!-- Menu item for Project Milestone Invoicing-->
+<!--        <menuitem name="menu prueba" action="action_informe_consumos_dinamico" id="menu_vista_dinamica_productos" parent="stock.menu_traceability" sequence="9"/>-->
+
+
+
+    </data>
+</openerp>
+
+

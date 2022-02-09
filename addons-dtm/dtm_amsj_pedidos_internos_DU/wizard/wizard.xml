@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="cp_wizard_DU" model="ir.ui.view">
+            <field name="name">Crear Pedido por Consumo Interno DU</field>
+            <field name="model">wizard.pedido.consumo.interno.du</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Crear Pedido interno DU">
+                    <header>
+                        <button
+                                name="action_create_picking_interno"
+                                string="Crear Pedido Interno"
+                                readonly="True"
+                                type="object"
+                                class="oe_highlight"/>
+                        o
+                        <button
+                                type='special'
+                                special='cancel'
+                                string='_Cancel'
+                                class="oe_link"
+                        />
+                    </header>
+                    <group>
+                        <div class="oe_right oe_button_box">
+                            <button type="object"
+                                    name="action_lista_productos"
+                                    class="oe_stat_button"
+                                    string="Cargar Productos"
+                                    icon="fa-list-alt">
+                            </button>
+                        </div>
+                        <group string="Período de consumo" colspan="2">
+                            <group colspan="1">
+                                <field name="fecha_inicial" string="Fecha Desde" readonly="False" required="True"/>
+                                <field name="fecha_final" string="Fecha Hasta" required="True"/>
+                            </group>
+
+
+                        </group>
+
+
+                        <group colspan="4">
+
+                            <field name="location_dest_readonly" invisible="1"/>
+                            <field name="sector_ids"
+                                   required="True" readonly="True"/>
+
+                            <!--widget="selection"-->
+                            <!--options="{'no_quick_create':True,'no_create_edit': True}"-->
+
+
+                            <field
+                                    name="new_location_dest_id"
+
+                                    options="{'no_quick_create':True,'no_create_edit': True}"
+                                    required="True"
+                                    string="Entregar a"
+                                    attrs="{'readonly':[('location_dest_readonly', '=', True)]}"/>
+                            <field name="new_location_orig_id"
+                                   widget="selection"
+                                   invisible="True"
+                                   options="{'no_quick_create':True,'no_create_edit': True}"
+                                   string="Pedir a"/>
+
+
+                        </group>
+
+                        <group>
+
+                            <field name="move_lines" string="Productos">
+                                <tree editable="bottom" create="false">
+                                    <!--<field name="stock" string="Cantidad Actual" readonly="1"  />-->
+                                    <field name="product_id" string="Producto" readonly="1"/>
+                                    <field name="product_qty" string="Cantidad Consumida" readonly="1"/>
+                                    <!--<field name="product_uom_qty" string="Cantidad Consumida" readonly="1"/>-->
+                                </tree>
+                            </field>
+
+                            <field name="log" widget="html" readonly="True"/>
+                        </group>
+
+                    </group>
+
+                </form>
+            </field>
+        </record>
+
+        <!-- ***************************************************************************** -->
+
+        <record id="pedido_consumo_interno_du_action" model="ir.actions.act_window">
+            <field name="name">Crear Pedido DU</field>
+            <field name="res_model">wizard.pedido.consumo.interno.du</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="cp_wizard_DU"/>
+            <field name="target">new</field>
+        </record>
+
+
+        <menuitem
+                id="menu_pedidos_consumo_interno_du"
+                name="Pedido Interno DU"
+                parent="stock.menu_stock_warehouse_mgmt"
+                sequence="5"
+                action="pedido_consumo_interno_du_action"
+        />
+
+
+    </data>
+</openerp>

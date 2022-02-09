@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+
+        <record id="precios_cocemi_wizard_form" model="ir.ui.view">
+            <field name="name">Wizard COCEMI importar precios</field>
+            <field name="model">amsj.cocemi.precios</field>
+            <field name="arch" type="xml">
+                <form string="Import Invoice">
+                   <!--  <group>
+                        <field name="name"/>
+                        <field name="date"/>
+                    </group> -->
+
+                    <group>
+                        <field name="columna_producto"/>
+                        <!-- <field name="columna_cantidad"/> -->
+                        <field name="columna_importe"/>
+                    </group>
+
+                    <group>
+                        <field name="file" />
+                    </group>
+
+                    <footer>
+                        <button name="import_csv"  string="Importar" type="object"/>
+                        <button string="Cancelar"  special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="precios_cocemi_wizard_action" model="ir.actions.act_window">
+            <field name="name">Importar precios de COCEMI</field>
+            <field name="res_model">amsj.cocemi.precios</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+                    
+            <menuitem
+                name="Precios de COCEMI"
+                id="precios_cocemi_titulo"
+                parent="purchase.menu_procurement_management"
+                sequence="14"
+        />
+
+
+
+        <menuitem action="precios_cocemi_wizard_action"
+                  id="id_precios_cocemi_wizard"
+                  sequence="1"
+                  name="Importar planilla"
+                  parent="precios_cocemi_titulo" />
+
+    
+
+
+
+              <record model="ir.ui.view" id="amsj_precios_cocemi_inherit">
+                <field name="name">Precios de COCEMI</field>
+                <field name="model">product.template</field>
+                <field name="inherit_id" ref="product.product_template_form_view"/>
+                <field name="arch" type="xml">
+                    
+
+
+                    <xpath expr="//field[@name='standard_price']" position="after">
+                
+                        <div></div><br/>
+                        
+                        <field name="precio_cocemi" />
+                
+                    </xpath>
+
+             <!--  <xpath expr="//group[@string='general']" position="after">
+                <group>
+                        <field name="precio_cocemi" />
+                </group>
+                    </xpath> -->
+
+<!-- 
+                    <xpath expr="//page[@string='Procurements']/group[@string='procurement']" position="after"> 
+                        <field name="precio_cocemi" />
+                    </xpath> -->
+
+<!-- 
+           <group string="general" position="after">
+                
+                <group>
+                <field name="precio_cocemi"/>
+                </group>
+            </group> -->
+                
+
+
+                                             <!-- product.product_template_only_form_view -->
+
+                </field>
+            </record>
+
+
+
+
+
+
+
+
+    </data>
+</openerp><!-- 
+ -->
+ 

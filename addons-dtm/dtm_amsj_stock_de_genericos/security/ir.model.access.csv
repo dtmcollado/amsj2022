@@ -1,0 +1,2 @@
+"id","name","model_id/id","group_id/id","perm_create","perm_unlink","perm_write","perm_read"
+"__export__.ir_model_access_1548","dtm_amsj_stock_maximo_filial","dtm_amsj_stock_de_genericos.model_dtm_amsj_stock_maximo_filial","","True","True","True","True"

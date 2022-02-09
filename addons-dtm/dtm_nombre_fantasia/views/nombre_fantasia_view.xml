@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+
+    <record id="fantasia_inherited_view_partner_up_form" model="ir.ui.view">
+        <field name="name">res.partner.fantasia.form.inherit</field>
+        <field name="model">res.partner</field>
+        <field name="type">form</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+        <xpath expr="//h1" position="after">
+            <field name="fantasia" placeholder="Nombre Fantasia"/>
+        </xpath>
+        </field>
+    </record>
+
+    <record id="fantasia_inherited_view_company_form" model="ir.ui.view">
+        <field name="name">res.partner.company.form.inherit</field>
+        <field name="model">res.company</field>
+        <field name="type">form</field>
+        <field name="inherit_id" ref="base.view_company_form"/>
+        <field name="arch" type="xml">
+        <field name="name" position="after">
+            <field name="fantasia" placeholder="Nombre Fantasia" style="width: 60%%"/>
+        </field>
+        </field>
+    </record>
+
+
+    <record id="view_res_partner_dtm_search_inherit" model="ir.ui.view" >
+        <field name="name">res.partner.dtm.search.inherit.extended</field>
+        <field name="model">res.partner</field>
+        <field name="priority" eval="20"/>
+        <field name="inherit_id" ref="base.view_res_partner_filter"/>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <data>
+                <search string="Search Partner">
+                    <field name="fantasia" string="Nombre Fantasia"/>
+                    <field name="phone" string="Teléfono"/>
+                    <field name="vat" string="RUT"/>
+                    <field name="street" string="Dirección"/>
+                </search>
+            </data>
+        </field>
+    </record>
+    </data>
+</openerp>

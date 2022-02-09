@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <report
+            string="Imprimir movimientos"
+            id="reporte_movimientos"
+            model="stock.picking"
+            report_type="qweb-pdf"
+            name="dtm_amsj_reporte_movimientos.reporte_movimientos"
+            file="dtm_amsj_reporte_movimientos.reporte_movimientos_template"
+            menu="True"
+        />
+
+        <record id="etiqueta_paperformat" model="report.paperformat">
+            <field name="name">Prueba 01</field>
+            <field name="default" eval="False"/>
+            <field name="format">custom</field>
+            <field name="page_height">25</field>
+            <field name="page_width">50</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">7</field>
+            <field name="margin_bottom">1</field>
+            <field name="margin_left">1</field>
+            <field name="margin_right">1</field>
+            <field name="header_spacing">0</field>
+            <field name="dpi">130</field>
+            <field name="header_line" eval="False" />
+        </record>
+
+        <record id="reporte_movimientos" model="ir.actions.report.xml">
+            <field name="paperformat_id" ref="etiqueta_paperformat"/>
+        </record>
+
+    </data>
+</openerp>

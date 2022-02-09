@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <template id="invoices_conformar">
+            <t t-call="report.external_layout">
+                <div class="page">
+                    <div class="row" style='padding-bottom: 20px;padding-top: 15px; text-align:right'>
+                        <h4>
+                            <t t-esc="report_title"/>
+                        </h4>
+
+
+                    </div>
+                    <div class="row" style='padding-bottom: 20px;padding-top: 15px; text-align:left'>
+                        <tr>
+                            <h4>
+                                Cr. General de AMSJ,
+                            </h4>
+                        </tr>
+                        <tr>
+                            <h4>
+                                Cr. Washington Berriel,
+                            </h4>
+                        </tr>
+
+
+                    </div>
+                    <div class="row" style='padding-bottom: 20px;padding-top: 15px; text-align:left'>
+                        <tr>
+                            <h4>
+                                <t t-esc="report_mensaje"/>
+                            </h4>
+                        </tr>
+
+
+                    </div>
+
+                    <div class="row">
+                        <table class="table table-no-border">
+                            <thead>
+                                <tr>
+                                    <th style='text-align:left;white-space:nowrap;'>Rubro contable</th>
+                                    <th style='text-align:left;white-space:nowrap;'>Detalle del rubro contable</th>
+                                    <th style='text-align:right;white-space:nowrap;'>Importe PUC</th>
+                                    <th style='text-align:right;white-space:nowrap;'>Importe FIFO</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="lineas" t-as="linea">
+                                    <tr>
+                                        <td>
+                                            <t t-esc="linea['rubro']"/>
+                                        </td>
+
+
+                                        <td>
+                                            <t t-esc="linea['categoria']"/>
+                                        </td>
+
+                                        <td class="text-right">
+                                            <t t-esc="currency_fmt(linea['compra'])"/>
+                                        </td>
+
+                                        <td class="text-right">
+                                            <t t-esc="currency_fmt(linea['fifo'])"/>
+                                        </td>
+
+
+
+
+
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>
+
+                        <br/>
+                        <br/>
+                        <br/>
+                        <br/>
+
+                        <div class="row">
+                            <div class="col-xs-6 text-center">
+                                <p>Firma de responsable del almacén central.</p>
+                            </div>
+
+                        </div>
+
+
+                    </div>
+                    <div style="page-break-after:always"/>
+                    <!--</t>-->
+                    <!--</t>-->
+                </div>
+            </t>
+        </template>
+    </data>
+</openerp>

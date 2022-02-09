@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+
+       <!-- VISTA TREE  -->
+        <record model="ir.ui.view" id="view_prestamos_line_tree">
+            <field name="name">dtm.wizard.prestamos.line.tree</field>
+            <field name="model">dtm.view.prestamos</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Prestamos">
+<!--                    <button name="picking_id" type="object" icon="gtk-go-forward" class="oe_highlight"/>-->
+                    <field name="picking_id"/>
+                    <field name="estado"/>
+                    <field name="clase"/>
+                    <field name="origin"/>
+                    <field name="date"/>
+                    <field name="product_id"/>
+                    <field name="product_qty"/>
+                    <field name="cost"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- ACCION  -->
+        <record model="ir.actions.act_window" id="action_ver_prestamos">
+            <field name="name">Prestamos</field>
+            <field name="res_model">dtm.view.prestamos</field>
+<!--            <field name="view_type">form</field>-->
+            <field name="view_mode">tree</field>
+        </record>
+
+
+          <menuitem
+                id="menu_ver_prestamos"
+                name="Ver Prestamos"
+                parent="menu_prestamos_root"
+                sequence="1"
+                action="action_ver_prestamos"
+        />
+
+    </data>
+</openerp>

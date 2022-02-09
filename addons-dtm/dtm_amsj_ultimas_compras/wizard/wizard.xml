@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="wizard_ultimas_facturas_form" model="ir.ui.view">
+            <field name="name">Facturas</field>
+            <field name="model">wizard.ultimas.facturas</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Productos">
+                    <group>
+                        <group string="Descargar">
+
+                            <!--                            <field name="fecha_inicial" string="Fecha Desde" required="True" />-->
+                            <field name="fecha_final" string="Fecha Hasta" required="True"/>
+                            <field name="sector_id"
+                                   required="True"
+                                   widget="selection"
+                                   options="{'no_quick_create':True,'no_create_edit': True}"
+
+                            />
+                            <newline/>
+                            <field name="archivo_nombre" invisible="1" readonly="1"/>
+                            <field name="binario" filename="nombre_archivo" readonly="1" invisible="1"/>
+                        </group>
+
+                    </group>
+                    <button class="oe_stat_button" name="action_export_validadas" icon="fa-cloud-download"
+                            string="Descargar" type="object" style="margin:80px 20px 20px 345px"></button>
+                </form>
+            </field>
+        </record>
+
+        <record id="wizard_historico_facturas_form" model="ir.ui.view">
+            <field name="name">Facturas</field>
+            <field name="model">wizard.historico.facturas</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Productos">
+                    <group>
+                        <group string="Descargar">
+
+                            <field name="fecha_inicial" string="Fecha Desde" required="True"/>
+                            <field name="fecha_final" string="Fecha Hasta" required="True"/>
+                            <field name="sector_id"
+                                   required="True"
+                                   widget="selection"
+                                   options="{'no_quick_create':True,'no_create_edit': True}"
+
+                            />
+                            <newline/>
+                            <field name="archivo_nombre" invisible="1" readonly="1"/>
+                            <field name="binario" filename="nombre_archivo" readonly="1" invisible="1"/>
+                        </group>
+
+                    </group>
+                    <button class="oe_stat_button" name="action_export" icon="fa-cloud-download"
+                            string="Descargar" type="object" style="margin:80px 20px 20px 345px"></button>
+                </form>
+            </field>
+        </record>
+
+        <!-- ***************************************************************************** -->
+        <!-- Action del wizard -->
+        <record id="wizard_compra_ultima_action" model="ir.actions.act_window">
+            <field name="name">Ultimas Compras</field>
+            <field name="res_model">wizard.ultimas.facturas</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="wizard_ultimas_facturas_form"/>
+            <field name="target">new</field>
+        </record>
+
+        <record id="wizard_compras_historico_action" model="ir.actions.act_window">
+            <field name="name">Histórico de Compras</field>
+            <field name="res_model">wizard.historico.facturas</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="wizard_historico_facturas_form"/>
+            <field name="target">new</field>
+        </record>
+
+        <menuitem
+                id="menu_compras_historico"
+                name="Histórico de Compras"
+                parent="purchase.menu_procurement_management_invoice"
+                action="wizard_compras_historico_action"
+                sequence="91"
+        />
+
+        <menuitem
+                id="menu_compras_ultima"
+                name="Ultimas Compras"
+                parent="purchase.menu_procurement_management_invoice"
+                action="wizard_compra_ultima_action"
+                sequence="92"
+        />
+
+
+    </data>
+</openerp>

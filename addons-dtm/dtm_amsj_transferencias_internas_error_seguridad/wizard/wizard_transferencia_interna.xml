@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="cp_interna" model="ir.ui.view">
+            <field name="name">Transferencia Interna</field>
+            <field name="model">wizard.transferencia.interna2</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Transferencia Interna">
+                    <header>
+                        <button
+                            name="action_create_transferencia_interna"
+                            string="Crear"
+                            type="object"
+                            class="oe_highlight" />
+                        o
+                        <button
+                            type='special'
+                            special='cancel'
+                            string='Cancelar'
+                            class="oe_link"
+                        />
+
+
+                    </header>
+
+
+                    <group>
+
+
+                        <group>
+
+                            <field name="location_dest_readonly" invisible="1" />
+                            <field
+                                name="internal_location_dest_id"
+                                required="True"
+                                widget="selection"
+                                options="{'no_quick_create':True,'no_create_edit': True}"
+                                attrs="{'readonly':[('location_dest_readonly', '=', True)]}"
+                                string="Entregar a" />
+
+                            <field name="internal_location_orig_id" required="True"
+                                   widget="selection"
+                                   options="{'no_quick_create':True,'no_create_edit': True}" string="Pedir a"/>
+
+                            <field name="move_lines" string="Productos">
+                                <tree editable="bottom" >
+                                    <field name="generico_id" string="Genérico" />
+                                    <field name="product_id" string="Producto"  options="{'no_quick_create':True,'no_create_edit': True}"/>
+                                    <field name="product_uom_qty" string="Cantidad"/>
+                                </tree>
+                            </field>
+
+                        </group>
+                    </group>
+
+                </form>
+            </field>
+        </record>
+
+        <record id="transferencia_interna_action" model="ir.actions.act_window">
+            <field name="name">Transferencia Interna</field>
+            <field name="res_model">wizard.transferencia.interna2</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="cp_interna"/>
+            <field name="target">new</field>
+        </record>
+
+        <menuitem
+            id="menu_transferencia_interna"
+            name="Transferencia interna"
+            parent="stock.menu_stock_warehouse_mgmt"
+            sequence="4"
+            action="transferencia_interna_action" />
+
+    </data>
+</openerp>

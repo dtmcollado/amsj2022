@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<openerp>
+	<data noupdate="True">
+        <record model="res.country.state" id="AR"><field name="name">Artigas</field>			<field name="type">normal</field><field name="code">AR</field><field name="country_id" ref="base.uy"/></record>
+        <record model="res.country.state" id="CA"><field name="name">Canelones</field>			<field name="type">normal</field><field name="code">CA</field><field name="country_id" ref="base.uy"/></record>
+        <record model="res.country.state" id="CL"><field name="name">Cerro Largo</field>		<field name="type">normal</field><field name="code">CL</field><field name="country_id" ref="base.uy"/></record>
+        <record model="res.country.state" id="CO"><field name="name">Colonia</field>			<field name="type">normal</field><field name="code">CO</field><field name="country_id" ref="base.uy"/></record>
+        <record model="res.country.state" id="DU"><field name="name">Durazno</field>			<field name="type">normal</field><field name="code">DU</field><field name="country_id" ref="base.uy"/></record>
+        <record model="res.country.state" id="FS"><field name="name">Flores</field>				<field name="type">normal</field><field name="code">FS</field><field name="country_id" ref="base.uy"/></record>
+        <record model="res.country.state" id="FA"><field name="name">Florida</field>			<field name="type">normal</field><field name="code">FA</field><field name="country_id" ref="base.uy"/></record>
+        <record model="res.country.state" id="LA"><field name="name">Lavalleja</field>			<field name="type">normal</field><field name="code">LA</field><field name="country_id" ref="base.uy"/></record>
+        <record model="res.country.state" id="MA"><field name="name">Maldonado</field>			<field name="type">normal</field><field name="code">MA</field><field name="country_id" ref="base.uy"/></record>
+        <record model="res.country.state" id="MO"><field name="name">Montevideo</field>			<field name="type">normal</field><field name="code">MO</field><field name="country_id" ref="base.uy"/></record>
+        <record model="res.country.state" id="PA"><field name="name">Paysandú</field>			<field name="type">normal</field><field name="code">PA</field><field name="country_id" ref="base.uy"/></record>
+        <record model="res.country.state" id="RN"><field name="name">Río Negro</field>			<field name="type">normal</field><field name="code">RN</field><field name="country_id" ref="base.uy"/></record>
+        <record model="res.country.state" id="RI"><field name="name">Rivera</field>				<field name="type">normal</field><field name="code">RI</field><field name="country_id" ref="base.uy"/></record>
+        <record model="res.country.state" id="RO"><field name="name">Rocha</field>				<field name="type">normal</field><field name="code">RO</field><field name="country_id" ref="base.uy"/></record>
+        <record model="res.country.state" id="SA"><field name="name">Salto</field>				<field name="type">normal</field><field name="code">SA</field><field name="country_id" ref="base.uy"/></record>
+        <record model="res.country.state" id="SJ"><field name="name">San José</field>			<field name="type">normal</field><field name="code">SJ</field><field name="country_id" ref="base.uy"/></record>
+        <record model="res.country.state" id="SO"><field name="name">Soriano</field>			<field name="type">normal</field><field name="code">SO</field><field name="country_id" ref="base.uy"/></record>
+        <record model="res.country.state" id="TA"><field name="name">Tacuarembó</field>			<field name="type">normal</field><field name="code">TA</field><field name="country_id" ref="base.uy"/></record>
+        <record model="res.country.state" id="TT"><field name="name">Treinata y Tres</field>	<field name="type">normal</field><field name="code">TT</field><field name="country_id" ref="base.uy"/></record>
+
+        <record model="res.bank" id="1"><field name="name">Banco de la República Oriental del Uruguay</field>		<field name="bic">1</field><field name='active'>1</field><field name="street">Cerrito 351</field>
+			<field name="city">Montevideo</field><field name='state' ref='MO'/><field name='country' ref='base.uy'/><field name="phone">2915 0157</field><field name="fax">2916 1276</field></record>
+        <record model="res.bank" id="91"><field name="name">Banco Hipotecario del Uruguay</field>					<field name="bic">91</field><field name='active'>1</field><field name="street">Fernández Crespo 1508</field>
+			<field name="city">Montevideo</field><field name='state' ref='MO'/><field name='country' ref='base.uy'/><field name="phone">1911</field><field name="fax">1911 int. 4171</field></record>
+        <record model="res.bank" id="110"><field name="name">Banco Bandes Uruguay S.A.</field>						<field name="bic">110</field><field name='active'>1</field><field name="street">Sarandí 402</field>
+			<field name="city">Montevideo</field><field name='state' ref='MO'/><field name='country' ref='base.uy'/><field name="phone">2916 0100</field><field name="fax"></field></record>
+		<record model="res.bank" id="113"><field name="name">Banco Itaú Uruguay S.A.</field>						<field name="bic">113</field><field name='active'>1</field><field name="street">Zabala 1463</field>
+			<field name="city">Montevideo</field><field name='state' ref='MO'/><field name='country' ref='base.uy'/><field name="phone">2916 0127</field><field name="fax">2916 1739</field></record>
+        <record model="res.bank" id="128"><field name="name">Nuevo Banco Comercial S.A.</field>						<field name="bic">128</field><field name='active'>1</field><field name="street">Misiones 1399</field>
+			<field name="city">Montevideo</field><field name='state' ref='MO'/><field name='country' ref='base.uy'/><field name="phone">2916 0541</field><field name="fax">2915 3569</field></record>
+        <record model="res.bank" id="134"><field name="name">Discount Bank (Latin America) S.A.</field>				<field name="bic">134</field><field name='active'>1</field><field name="street">Rincón 390</field>
+			<field name="city">Montevideo</field><field name='state' ref='MO'/><field name='country' ref='base.uy'/><field name="phone">2916 4848</field><field name="fax">2916 0890</field></record>
+        <record model="res.bank" id="137"><field name="name">Banco Santander S.A.</field>							<field name="bic">137</field><field name='active'>1</field><field name="street">Julio Herrera y Obes 1365</field>
+			<field name="city">Montevideo</field><field name='state' ref='MO'/><field name='country' ref='base.uy'/><field name="phone">1747</field><field name="fax"></field></record>
+        <record model="res.bank" id="153"><field name="name">Banco Bilbao Vizcaya Argentaria Uruguay S.A.</field>	<field name="bic">153</field><field name='active'>1</field><field name="street">25 de Mayo 401</field>
+			<field name="city">Montevideo</field><field name='state' ref='MO'/><field name='country' ref='base.uy'/><field name="phone">2916 1444</field><field name="fax">2916 1675</field></record>
+        <record model="res.bank" id="157"><field name="name">HSBC Bank (Uruguay) S.A.</field>						<field name="bic">157</field><field name='active'>1</field><field name="street">Zabala 1403</field>
+			<field name="city">Montevideo</field><field name='state' ref='MO'/><field name='country' ref='base.uy'/><field name="phone">2915 3395</field><field name="fax">2916 0125</field></record>
+        <record model="res.bank" id="162"><field name="name">Banque Heritage (Uruguay) S.A.</field>					<field name="bic">162</field><field name='active'>1</field><field name="street">Rincón 530</field>
+			<field name="city">Montevideo</field><field name='state' ref='MO'/><field name='country' ref='base.uy'/><field name="phone">2916 0177</field><field name="fax">2916 0241</field></record>
+        <record model="res.bank" id="205"><field name="name">Citibank N.A. Sucursal Uruguay</field>					<field name="bic">205</field><field name='active'>1</field><field name="street">Cerrito 455</field>
+			<field name="city">Montevideo</field><field name='state' ref='MO'/><field name='country' ref='base.uy'/><field name="phone">2915 0374</field><field name="fax">1987 210</field></record>
+        <record model="res.bank" id="216"><field name="name">Lloyds TSB Bank plc</field>							<field name="bic">216</field><field name='active'>1</field><field name="street">Zabala 1500</field>
+			<field name="city">Montevideo</field><field name='state' ref='MO'/><field name='country' ref='base.uy'/><field name="phone">2916 1370</field><field name="fax">2916 1262</field></record>
+        <record model="res.bank" id="246"><field name="name">Banco de la Nación Argentina</field>					<field name="bic">246</field><field name='active'>1</field><field name="street">Juan C. Gomez 1372</field>
+			<field name="city">Montevideo</field><field name='state' ref='MO'/><field name='country' ref='base.uy'/><field name="phone">2916 0078</field><field name="fax">2916 4582</field></record>
+
+        <record model="res.partner.title" id="SA">	<field name="name">Sociedad Anónima</field>						<field name="shortcut">S.A.</field><field name="domain">partner</field></record>
+        <record model="res.partner.title" id="SRL">	<field name="name">Sociedad de Responsabilidad Limitada</field>	<field name="shortcut">S.R.L.</field><field name="domain">partner</field></record>
+        <record model="res.partner.title" id="SH">	<field name="name">Sociedad de Hecho</field>					<field name="shortcut">S.H.</field><field name="domain">partner</field></record>
+        <record model="res.partner.title" id="CO">	<field name="name">Cooperativa</field>							<field name="shortcut">Coop.</field><field name="domain">partner</field></record>
+        <record model="res.partner.title" id="SC">	<field name="name">Sociedad Colectiva</field>					<field name="shortcut">S.C.</field><field name="domain">partner</field></record>
+        <record model="res.partner.title" id="SCS">	<field name="name">Sociedad en Comandita Simple</field>			<field name="shortcut">S.C.S.</field><field name="domain">partner</field></record>
+        <record model="res.partner.title" id="SCA">	<field name="name">Sociedad en Comandita por Acciones</field>	<field name="shortcut">S.C.A.</field><field name="domain">partner</field></record>
+        <record model="res.partner.title" id="SCI">	<field name="name">Sociedad de Capital e Industria</field>		<field name="shortcut">S.C.I.</field><field name="domain">partner</field></record>
+        <record model="res.partner.title" id="EU">	<field name="name">Empresa Unipersonal</field>					<field name="shortcut">E.U.</field><field name="domain">partner</field></record>
+
+        <record model="res.partner.title" id="sr"> <field name="name">Señor</field>									<field name="shortcut">Sr</field><field name="domain">contact</field></record>
+        <record model="res.partner.title" id="sra"> <field name="name">Señora</field>								<field name="shortcut">Sra</field><field name="domain">contact</field></record>
+        <record model="res.partner.title" id="srta"> <field name="name">Señorita</field>							<field name="shortcut">Srta</field><field name="domain">contact</field></record>
+        <record model="res.partner.title" id="ing"> <field name="name">Ingeniero</field>							<field name="shortcut">Ing.</field><field name="domain">contact</field></record>
+        <record model="res.partner.title" id="lic"> <field name="name">Licenciado</field>							<field name="shortcut">Lic.</field><field name="domain">contact</field></record>
+        <record model="res.partner.title" id="doc"> <field name="name">Doctor</field>								<field name="shortcut">Dr</field><field name="domain">contact</field></record>
+        <record model="res.partner.title" id="med"> <field name="name">Médico</field>								<field name="shortcut">Med.</field><field name="domain">contact</field></record>
+        <record model="res.partner.title" id="phd"> <field name="name">Ph. Doctor</field>							<field name="shortcut">PhD.</field><field name="domain">contact</field></record>
+        <record model="res.partner.title" id="tec"> <field name="name">Técnico</field>								<field name="shortcut">Tec.</field><field name="domain">contact</field></record>
+        <record model="res.partner.title" id="coop"> <field name="name">Cooperativa</field>							<field name="shortcut">Coop.</field><field name="domain">partner</field></record>
+
+    </data>
+</openerp>

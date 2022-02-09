@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+
+
+        <record model="ir.ui.view" id="view_stock_alerta">
+            <field name="name">Alerta Stock Minimo</field>
+            <field name="model">dtm.amsj.stock.de.alerta</field>
+            <field name="type">tree</field>
+
+            <field name="arch" type="xml">
+                <tree string="Stock Alerta" create="false" delete="false" edit="false" version="7.0">
+                    <field name='product_id'/>
+                    <field name='principio_activo_id'/>
+                    <field name='forma_farmaceutica_id'/>
+                    <field name='concentracion_valor'/>
+                    <field name='concentracion_unidad'/>
+                    <field name='purchase_order_qty' bg_color="green:purchase_order_qty>0;"
+                           fg_color="white:purchase_order_qty>0;"/>
+                    <field name='en_alerta'/>
+                </tree>
+            </field>
+        </record>
+
+
+        <!-- SEARCH -->
+        <record id="view_stock_alerta_serch" model="ir.ui.view">
+            <field name="name">Busco</field>
+            <field name="model">dtm.amsj.stock.de.alerta</field>
+            <field name="arch" type="xml">
+                <search string="Buscar por..">
+                    <field name="product_id"/>
+                    <field name="principio_activo_id" string="Generico"/>
+                    <field name="forma_farmaceutica_id" string="Forma farmacéutica"/>
+                    <field name="en_alerta"/>
+                </search>
+            </field>
+        </record>
+
+
+        <!-- Form view Action for Project Milestone Invoicing -->
+        <record id="action_stock_alerta" model="ir.actions.act_window">
+            <field name="name">Alertas</field>
+            <field name="res_model">dtm.amsj.stock.de.alerta</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree</field>
+            <field name="search_view_id" ref="view_stock_alerta_serch"/>
+        </record>
+
+
+        <menuitem name="Alertas"
+                  action="action_stock_alerta"
+                  id="menu_stock_mini"
+                  parent="dtm_amsj_stock_critico.menu_critico_main"
+                  sequence="1"/>
+
+
+    </data>
+</openerp>
+
+

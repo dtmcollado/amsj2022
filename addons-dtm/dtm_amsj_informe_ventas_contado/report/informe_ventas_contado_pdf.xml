@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <template id="informe_ventas_contado">
+            <t t-call="report.external_layout">
+                <div class="page">
+                    <div class="row" style='padding-bottom: 20px;padding-top: 15px; text-align:right'>
+                        <h4>
+                            <t t-esc="report_title"/>
+                        </h4>
+
+
+                    </div>
+                    <div class="row" style='padding-bottom: 20px;padding-top: 15px; text-align:center'>
+                        <h2>
+                            Informe Ventas Contado
+                        </h2>
+
+
+                    </div>
+                    <div class="row">
+                        <table class="table table-no-border">
+                            <thead>
+                                <tr>
+<!--                                    <th style='text-align:left;white-space:nowrap;'>Fecha del movimiento</th>-->
+                                    
+                                    <th style='text-align:left;white-space:nowrap;'>Código</th>
+                                    <th style='text-align:left;white-space:nowrap;'>Producto</th>
+                                    <th style='text-align:right;white-space:nowrap;'>Cantidad</th>
+                                    <th style='text-align:right;white-space:nowrap;'>Costo</th>
+                                    <th style='text-align:right;white-space:nowrap;'>Total</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="lineas" t-as="linea">
+                                    <tr>
+                                        
+                                        
+                                        <td style='text-align:left;'>
+                                            <t t-esc="linea['codigo']"/>
+                                        </td>
+
+                                        <td style='text-align:left;'>
+                                            <t t-esc="linea['producto']"/>
+                                        </td>
+
+                                        <td style='text-align:right;'>
+                                            <t t-esc="linea['cantidad']"/>
+                                        </td>
+
+                                        <td style='text-align:right;'>
+                                            <t t-esc="currency_fmt(linea['costo'])"/>
+
+                                        </td>
+
+                                        <td style='text-align:right;'>
+                                         <t t-esc="currency_fmt(linea['total'])"/>
+                                        </td>
+
+                                    </tr>
+                                </t>
+
+                                <tr>
+                                    <td/>
+                                    <td/>
+                                    <td/>
+                                    <td>
+                                        <b>TOTAL</b>
+                                    </td>
+                                    <td>
+                                        <span
+                                                t-esc="currency_fmt(total_stock)"
+                                        />
+
+
+                                    </td>
+                                </tr>
+
+
+                            </tbody>
+                        </table>
+                    </div>
+
+
+                    <br/>
+                    <br/>
+
+
+                </div>
+            </t>
+        </template>
+
+        <report
+                id="informe_ventas_contado_report"
+                model="dtm_amsj_informe_ventas_contado"
+                string="Informe Ventas Contado"
+                report_type="qweb-pdf"
+                name="dtm_amsj_informe_ventas_contado.informe_ventas_contado"
+                file="dtm_amsj_informe_ventas_contado.informe_ventas_contado"
+                menu="False"
+        />
+    </data>
+</openerp>

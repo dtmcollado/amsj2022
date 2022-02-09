@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+	<data>
+        <record id="diferencia_precios_tree" model="ir.ui.view">
+            <field name="name">Diferencia precios tree</field>
+            <field name="model">diferencia.precio.ordenes.facturas</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree>
+<!--                    <button name="factura_wizard" type="object" icon="STOCK_GOTO_TOP"/>-->
+                    <field name="sector_id"/>
+                    <field name="date_order"/>
+                    <field name="date_invoice"/>
+                    <field name="supplier_invoice_number" string="Nro. de Factura del proveedor"/>
+                    <field name="partner_id" string="Proveedor"/>
+                    <field name="purchase_order" string="Pedido de compra"/>
+                    <field name="categoria_interna"/>
+                    <field name="name"/>
+                    <field name="referencia_interna"/>
+                    <field name="cantidad_factura"/>
+                    <field name="precio_factura"/>
+                    <field name="cantidad_orden"/>
+                    <field name="precio_orden"/>
+<!--                    <button name="remito_wizard" type="object" icon="STOCK_GOTO_BOTTOM"/>-->
+                </tree>
+            </field>
+        </record>
+
+        <record id="search_diferencia" model="ir.ui.view">
+            <field name="name">search Diferencia</field>
+            <field name="model">diferencia.precio.ordenes.facturas</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="supplier_invoice_number" string="Nro. de factura del proveedor"/>
+                    <field name="date_invoice" string="fecha de la factura"/>
+                    <field name="partner_id" string="Proveedor"/>
+                    <field name="sector_id" string="Sector"/>
+<!--                    <group expand="0" string="Group By">-->
+<!--                        <filter string="Número de recepción" domain="[]" context="{'group_by':'origin'}"/>-->
+<!--                    </group>-->
+                </search>
+             </field>
+         </record>
+
+		 <record id="action_diferencia_precio" model="ir.actions.act_window">
+            <field name="name">Diferencia en precios</field>
+            <field name="res_model">diferencia.precio.ordenes.facturas</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="diferencia_precios_tree"/>
+            <field name="search_view_id" ref="search_diferencia"/>
+        </record>
+
+		<menuitem id="menu_diferencia_precio" name="Diferencia de precio orden/factura"
+                  parent="purchase.menu_procurement_management_invoice"
+                  action="action_diferencia_precio" sequence="90"
+        />
+
+        <menuitem id="menu_diferencia_precio_con" name="Diferencia de precio orden/factura"
+                  parent="account.menu_finance_payables"
+                  action="action_diferencia_precio" sequence="120"
+        />
+
+
+	</data>
+</openerp>

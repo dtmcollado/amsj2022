@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="cp_wizard" model="ir.ui.view">
+            <field name="name">Crear Pedido por Consumo Sueros</field>
+            <field name="model">wizard.pedido.consumo.sueros</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Crear Pedido para filial">
+                    <header>
+                        <button
+                                name="action_create_picking"
+                                string="Crear Pedido"
+                                type="object"
+                                class="oe_highlight"/>
+                        o
+                        <button
+                                type='special'
+                                special='cancel'
+                                string='_Cancel'
+                                class="oe_link"
+                        />
+                    </header>
+
+                    <group>
+
+                        <group string="Reposición por Consumo Sueros" colspan="2">
+                            <group colspan="1">
+                                <field name="fecha_inicial" invisible="True" />
+                                <field name="inicial"  string="Fecha Desde" />
+                                <field name="fecha_final"   string="Fecha Hasta" />
+                            </group>
+
+
+                        </group>
+
+
+                        <group colspan="4">
+                            <field name="location_dest_readonly" invisible="1"/>
+                            <field
+                                    name="new_location_dest_id"
+                                    options="{'no_quick_create':True,'no_create_edit': True}"
+                                    string="Entregar a"
+                                    required="True"
+                                    attrs="{'readonly':[('location_dest_readonly', '=', True)]}"/>
+                            <field name="almacen" string="" options="{'no_open':True}"/>
+                            <field name="new_location_orig_id"
+                                   invisible="False"
+                                   options="{'no_quick_create':True,'no_create_edit': True}"
+                                   string="Pedir a"/>
+
+
+                        </group>
+
+                    </group>
+
+                </form>
+            </field>
+        </record>
+
+        <!-- ***************************************************************************** -->
+
+        <record id="pedido_consumo_sueros_action" model="ir.actions.act_window">
+            <field name="name">Crear Pedido Sueros</field>
+            <field name="res_model">wizard.pedido.consumo.sueros</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="cp_wizard"/>
+            <field name="target">new</field>
+        </record>
+
+
+        <menuitem
+                id="menu_pedidos_consumo"
+                name="Pedido de Sueros"
+                parent="stock.menu_stock_warehouse_mgmt"
+                sequence="8"
+                action="pedido_consumo_sueros_action"
+        />
+
+
+    </data>
+</openerp>

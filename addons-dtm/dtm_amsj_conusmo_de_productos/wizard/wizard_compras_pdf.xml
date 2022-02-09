@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="wizard_compras" model="ir.ui.view">
+            <field name="name">Compras medicamentos PDF</field>
+            <field name="model">wizard.compras.pdf</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Compras">
+                    <header>
+                        <button
+                                name="action_report"
+                                string="Crear PDF"
+                                type="object"
+                                class="oe_highlight"/>
+
+
+                       <button string="_Cancel" class="oe_link"
+                            special="cancel" />
+                    </header>
+
+                      <group string="Criterio">
+
+                            <field name="tipo_facturas" required="True"/>
+
+                        </group>
+
+                    <group>
+
+
+
+                        <group string="Rango de fechas a Consultar">
+                            <group>
+                                <field name="fecha_inicial" string="Fecha Desde" required="True"/>
+                            </group>
+                            <group>
+                                <field name="fecha_final" string="Fecha Hasta" required="True"/>
+                            </group>
+
+                            <newline/>
+
+<!--                            <p>* TODAS las facturas autorizadas para pagar en el período que se está filtrando el informe</p>-->
+
+                             <newline/>
+
+                        </group>
+
+
+                    </group>
+
+                    <group>
+
+                            <field name="sector_ids"  required="True"
+                             options="{'no_quick_create':True,'no_create_edit': True, 'no_create':True}"/>
+                        </group>
+
+
+
+
+
+                </form>
+            </field>
+        </record>
+
+        <!-- ***************************************************************************** -->
+
+        <!-- Action  wizard -->
+        <record id="wizard_genera_pdf_compras_action" model="ir.actions.act_window">
+            <field name="name">Compras</field>
+            <field name="res_model">wizard.compras.pdf</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="wizard_compras"/>
+            <field name="target">new</field>
+        </record>
+
+        <menuitem id="menu_compras_pdf" name="Informe de Compras PDF"
+                  parent="account.menu_finance_reporting"
+                  action="wizard_genera_pdf_compras_action" sequence="83"
+        />
+
+    </data>
+</openerp>

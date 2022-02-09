@@ -1,0 +1,721 @@
+
+CREATE OR REPLACE FUNCTION public.sp_stock_history_fifo(_date_start character varying, _date_end character varying,
+    _location_id integer, _product_id integer, _empaque integer, _categoria integer, inventariados integer)
+
+RETURNS TABLE(id_ubicacion integer, id_producto integer, antes numeric, despues numeric, categ_id integer, inventariado character varying)
+
+--returns boolean
+AS
+$BODY$
+
+declare _inventario RECORD;
+declare _inicio timestamp;
+declare _fin timestamp;
+declare _productos RECORD;
+
+BEGIN
+
+
+
+        -- tabla para los lugares a inventariar --
+        DROP TABLE IF EXISTS tmp_lugares_fifo;
+        CREATE TEMPORARY TABLE tmp_lugares_fifo(
+            location_id integer not NULL
+        );
+
+        insert INTO tmp_lugares_fifo (location_id)
+        SELECT sl.id
+        from stock_location sl
+        where sl.inv_contabilidad = true
+        and (sl.id = _location_id or _location_id = 0);
+
+        CREATE INDEX ON tmp_lugares_fifo (location_id);
+
+
+        -- tabla para los productos    a inventariar --
+        DROP TABLE IF EXISTS tmp_productos_fifo;
+        CREATE TEMPORARY TABLE tmp_productos_fifo(
+            product_id integer not NULL
+        );
+
+        if (inventariados > 0) then
+
+            -- productos almacenables, empaque caja, y que estan en algun inventario
+            insert INTO tmp_productos_fifo (product_id)
+            SELECT p.id
+            from product_product p
+            INNER JOIN product_template pt ON pt.id = p.product_tmpl_id
+            where pt."type" = 'product'
+                --and (pt.tipo_de_empaque = _empaque or _empaque = 0)
+                and (coalesce(pt.tipo_de_empaque,0) != 2)
+                and (p.id = _product_id or _product_id = 0)
+                and (pt.categ_id = _categoria or _categoria = 0)
+                and p.id in (
+                    select distinct sil.product_id
+                    from stock_inventory si
+                    inner join stock_inventory_line sil on sil.inventory_id = si.id
+                    where si."date" >= _date_start::date and date < _date_end::date
+                    and coalesce(si.inv_por_contabilidad,false) = true
+                    and si.location_id in (
+                        select distinct si.location_id
+                        from stock_inventory si
+                        where "date" >=_date_start::date and date <_date_end::date
+                        and coalesce(si.inv_por_contabilidad,false) = true
+                        and si.location_id in (select location_id from tmp_lugares_fifo)
+                        and si.inv_por_contabilidad = True
+                    )
+                );
+
+        else
+            -- productos almacenables, empaque caja, y que estan en algun inventario
+            insert INTO tmp_productos_fifo (product_id)
+            SELECT p.id
+            from product_product p
+            INNER JOIN product_template pt ON pt.id = p.product_tmpl_id
+            where pt."type" = 'product'
+                and (coalesce(pt.tipo_de_empaque,0) != 2)
+                and (p.id = _product_id or _product_id = 0)
+                and (pt.categ_id = _categoria or _categoria = 0);
+
+        end if;
+
+        CREATE INDEX ON tmp_productos_fifo (product_id);
+
+
+        -- tabla para cargar fecha/hora de inicio y fin para este sp
+        DROP TABLE IF EXISTS tmp_horas_inventarios_fifo;
+
+        CREATE TEMPORARY TABLE tmp_horas_inventarios_fifo(
+            ubicacion_id integer not NULL,
+             inicio timestamp null,
+             fin timestamp null
+        );
+
+
+        -- llenar las horas de inventario --
+        insert INTO tmp_horas_inventarios_fifo (ubicacion_id, inicio, fin)
+        SELECT a.location_id, a.inicio, a.fin
+        FROM
+        (
+            --- inicio y fin por ubicacion para las ubicaciones que tienen un solo inventario
+            select si.location_id , sil.fecha as inicio, sil.fecha as fin
+            from stock_inventory si
+            inner join (
+                select sil.inventory_id, max(create_date) as fecha
+                from stock_inventory_line sil
+                group by sil.inventory_id
+            ) sil on sil.inventory_id = si.id
+            where si."date" >= _date_start::date and date < _date_end::date
+            and coalesce(si.inv_por_contabilidad,false) = true
+            and location_id in (
+                select si.location_id
+                from stock_inventory si
+                where "date" >=_date_start::date and date <_date_end::date
+                and coalesce(si.inv_por_contabilidad,false) = true
+                and si.location_id in (select location_id from tmp_lugares_fifo)
+                and si.inv_por_contabilidad = True
+                group by location_id
+                having count(*) = 1
+            )
+            and si.location_id in (select location_id from tmp_lugares_fifo)
+            and si.inv_por_contabilidad = True
+
+            union all
+
+            select location_id, max(inicio) as menor, max(fin) as mayor
+            from (
+                select location_id , min(sil.fecha) as inicio, null as fin
+                from stock_inventory si
+                inner join (
+                    select sil.inventory_id, max(create_date) as fecha
+                    from stock_inventory_line sil
+                    group by sil.inventory_id
+                ) sil on sil.inventory_id = si.id
+                where si."date" >= _date_start::date and date < _date_end::date
+                and coalesce(si.inv_por_contabilidad,false) = true
+                and location_id in (
+                    select location_id
+                    from stock_inventory si
+                    where "date" >= _date_start::date and date < _date_end::date
+                    and coalesce(si.inv_por_contabilidad,false) = true
+                    and si.location_id in (select location_id from tmp_lugares_fifo)
+                    and si.inv_por_contabilidad = True
+                    group by location_id
+                    having count(*) > 1
+                )
+                and si.location_id in (select location_id from tmp_lugares_fifo)
+                and si.inv_por_contabilidad = True
+                group by location_id
+
+                union all
+
+                select location_id , null as inicio, max(sil.fecha) as fin
+                from stock_inventory si
+                inner join (
+                    select sil.inventory_id, max(create_date) as fecha
+                    from stock_inventory_line sil
+                    group by sil.inventory_id
+                ) sil on sil.inventory_id = si.id
+                where si."date" >= _date_start::date and date < _date_end::date
+                and coalesce(si.inv_por_contabilidad,false) = true
+                and location_id in (
+                    select location_id
+                    from stock_inventory si
+                    where "date" >= _date_start::date and date < _date_end::date
+                    and coalesce(si.inv_por_contabilidad,false) = true
+                    and si.location_id in (select location_id from tmp_lugares_fifo)
+                    and si.inv_por_contabilidad = True
+                    group by location_id
+                    having count(*) > 1
+                )
+                and si.location_id in (select location_id from tmp_lugares_fifo)
+                and si.inv_por_contabilidad = True
+                group by location_id
+            ) as t
+            group by location_id
+            order by location_id
+        ) a;
+
+        CREATE INDEX ON tmp_horas_inventarios_fifo (ubicacion_id);
+
+        -- tabla para calcular el stock por producto --
+        DROP TABLE IF EXISTS tmp_stock_history_date_product_fifo;
+
+        CREATE TEMPORARY TABLE tmp_stock_history_date_product_fifo(
+            producto_id integer not NULL,
+            ubicacion_id integer not NULL,
+             cantidad_antes numeric    null,
+             cantidad_despues numeric null
+        );
+
+
+        -- ANTES: Recorrer los items de producto --
+        FOR _inventario IN
+        SELECT tmp_horas_inventarios_fifo.ubicacion_id, tmp_horas_inventarios_fifo.inicio
+        FROM tmp_horas_inventarios_fifo
+        LOOP
+            insert into tmp_stock_history_date_product_fifo (ubicacion_id, producto_id, cantidad_antes)
+            select location_id, product_id, qty
+            from sp_stock_history_date_detail_con45(_inventario.ubicacion_id::integer, _inventario.inicio::timestamp);
+        end loop;
+
+        -- DESPUES: Recorrer los items de producto --
+        -- se basa en el stored procedure que combina inventarios con quants
+
+           if (inventariados < 2) then
+               -- todos los ṕroductos --
+            FOR _inventario IN
+            SELECT tmp_horas_inventarios_fifo.ubicacion_id, tmp_horas_inventarios_fifo.fin
+            FROM tmp_horas_inventarios_fifo
+            LOOP
+                insert into tmp_stock_history_date_product_fifo (ubicacion_id, producto_id, cantidad_despues)
+                select location_id, product_id, qty
+                from sp_stock_history_date_fifo(_date_start::character varying, _date_end::character varying, _inventario.ubicacion_id::integer, _empaque::integer, _inventario.fin::timestamp);
+            end loop;
+        else
+            -- solo los inventariados --
+            FOR _inventario IN
+            SELECT tmp_horas_inventarios_fifo.ubicacion_id, tmp_horas_inventarios_fifo.fin
+            FROM tmp_horas_inventarios_fifo
+            LOOP
+                insert into tmp_stock_history_date_product_fifo (ubicacion_id, producto_id, cantidad_despues)
+                select location_id, product_id, qty
+                from sp_stock_history_date_fifo_solo_inventario(_date_start::character varying, _date_end::character varying, _inventario.ubicacion_id::integer, _empaque::integer, _inventario.fin::timestamp);
+            end loop;
+        end if;
+
+           CREATE INDEX ON tmp_stock_history_date_product_fifo (ubicacion_id,producto_id);
+
+           UPDATE tmp_stock_history_date_product_fifo p
+        SET cantidad_despues = s.real
+        FROM (
+                select si.location_id, sil.product_id , sum(sil.product_qty) as real
+                from stock_inventory si
+                inner join stock_inventory_line sil on sil.inventory_id = si.id
+                where si."date" >= _date_start::date and date < _date_end::date
+                    and coalesce(si.inv_por_contabilidad,false) = true
+                    and si.location_id in (select location_id from tmp_lugares_fifo)
+                group by si.location_id, sil.product_id
+            ) as s
+        WHERE s.location_id = p.ubicacion_id
+            and s.product_id = p.producto_id
+            and not s.real is null
+            and p.cantidad_antes is null;
+
+
+
+
+    if (inventariados = 2) then
+
+        RETURN query
+        -- solo inventariados --
+        select t.ubicacion_id as id_ubicacion,
+            t.producto_id as id_producto,
+            sum(coalesce(t.cantidad_antes,0))::numeric as antes ,
+            sum(coalesce(t.cantidad_despues,0))::numeric as despues,
+            pt.categ_id,
+            case when sil.product_id is null then 'No'::character varying else 'Si'::character varying end as inventariado
+
+        from tmp_stock_history_date_product_fifo t
+        INNER JOIN tmp_productos_fifo tmp ON tmp.product_id = t.producto_id
+        INNER JOIN product_product p ON p.id = tmp.product_id
+        INNER JOIN product_template pt ON pt.id = p.product_tmpl_id
+        inner join (
+            select distinct si.location_id, sil.product_id
+            from stock_inventory si
+            inner join stock_inventory_line sil on sil.inventory_id = si.id
+            where si."date" >= _date_start::date and date < _date_end::date
+            and coalesce(si.inv_por_contabilidad,false) = true
+            and si.location_id in (select location_id from tmp_lugares_fifo)
+        ) sil on sil.location_id = t.ubicacion_id and sil.product_id = t.producto_id
+        group by t.ubicacion_id, t.producto_id, pt.categ_id, sil.product_id;
+
+    else
+
+        RETURN query
+        -- todos los productos o los que estuvieron en al menos un inventario --
+        select t.ubicacion_id as id_ubicacion,
+            t.producto_id as id_producto,
+            sum(coalesce(t.cantidad_antes,0))::numeric as antes ,
+            sum(coalesce(t.cantidad_despues,0))::numeric as despues,
+            pt.categ_id,
+            case when sil.product_id is null then 'No'::character varying else 'Si'::character varying end as inventariado
+
+        from tmp_stock_history_date_product_fifo t
+        INNER JOIN tmp_productos_fifo tmp ON tmp.product_id = t.producto_id
+        INNER JOIN product_product p ON p.id = tmp.product_id
+        INNER JOIN product_template pt ON pt.id = p.product_tmpl_id
+        left join (
+            select distinct si.location_id, sil.product_id
+            from stock_inventory si
+            inner join stock_inventory_line sil on sil.inventory_id = si.id
+            where si."date" >= _date_start::date and date < _date_end::date
+            and coalesce(si.inv_por_contabilidad,false) = true
+            and si.location_id in (select location_id from tmp_lugares_fifo)
+        ) sil on sil.location_id = t.ubicacion_id and sil.product_id = t.producto_id
+        group by t.ubicacion_id, t.producto_id, pt.categ_id, sil.product_id;
+
+    end if;
+
+END;
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100
+  ROWS 1000;
+
+
+
+
+
+
+CREATE OR REPLACE FUNCTION public.sp_stock_history_date_fifo_solo_inventario(
+     IN _date_start character varying,
+     IN _date_end character varying,
+    IN _ubicacion_id integer,
+    IN _empaque integer,
+    IN _fecha timestamp without time zone)
+  RETURNS TABLE(location_id integer, product_id integer, qty numeric) AS
+$BODY$
+
+BEGIN
+
+RETURN query
+
+select t.location_id, t.product_id, (case when not t.real is null then t.real else t.product_qty end )::numeric as product_qty
+from (
+    select t.location_id, t.product_id, sum(t.product_qty)::numeric as product_qty, sum(t.real)::numeric as real
+    from (
+
+        -- solo inventarios ---
+        select si.location_id, sil.product_id , 0 as product_qty, sum(sil.product_qty) as real
+        from stock_inventory si
+        inner join stock_inventory_line sil on sil.inventory_id = si.id
+        inner join (
+            select p.id
+            from product_product p
+            INNER JOIN product_template pt ON pt.id = p.product_tmpl_id
+            where pt."type" = 'product'
+                and (coalesce(pt.tipo_de_empaque,0) != 2)
+        ) as p on p.id = sil.product_id
+        inner join stock_location sl on sl.id = si.location_id
+        where si."date" >= _date_start::date and date < _date_end::date
+        and coalesce(si.inv_por_contabilidad,false) = true
+        and si.location_id = _ubicacion_id
+        group by si.location_id, sil.product_id
+
+    ) as t
+    group by t.location_id, t.product_id
+) as t;
+
+
+END;
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100
+  ROWS 1000;
+
+
+
+
+CREATE OR REPLACE FUNCTION public.sp_stock_history_date_fifo(
+     IN _date_start character varying,
+     IN _date_end character varying,
+    IN _ubicacion_id integer,
+    IN _empaque integer,
+    IN _fecha timestamp without time zone)
+  RETURNS TABLE(location_id integer, product_id integer, qty numeric) AS
+$BODY$
+
+BEGIN
+
+RETURN query
+
+select t.location_id, t.product_id, (case when not t.real is null then t.real else t.product_qty end )::numeric as product_qty
+from (
+    select t.location_id, t.product_id, sum(t.product_qty)::numeric as product_qty, sum(t.real)::numeric as real
+    from (
+        select t.location_id, t.product_id, sum(t.product_qty)::numeric as product_qty, 0 as real
+        from (
+                -- entradas
+                SELECT m.location_dest_id as location_id, m.product_id, sum(m.product_qty) * -1 as product_qty
+                FROM stock_move m
+                inner join (
+                    select p.id
+                    from product_product p
+                    INNER JOIN product_template pt ON pt.id = p.product_tmpl_id
+                    where pt."type" = 'product'
+                        and (coalesce(pt.tipo_de_empaque,0) != 2)
+                ) as p on p.id = m.product_id
+
+                WHERE m.state = 'done'
+                    and m."date" >= _fecha
+                    and m.location_dest_id = _ubicacion_id
+                    AND m.location_id NOT IN (4,5)
+                GROUP BY m.location_dest_id, m.product_id
+
+                union all
+                -- salidas
+                SELECT m.location_id, m.product_id, sum(m.product_qty) as product_qty
+                FROM stock_move m
+                inner join (
+                    select p.id
+                    from product_product p
+                    INNER JOIN product_template pt ON pt.id = p.product_tmpl_id
+                    where pt."type" = 'product'
+                        and (coalesce(pt.tipo_de_empaque,0) != 2)
+                ) as p on p.id = m.product_id
+                WHERE m.state = 'done'
+                    and m."date" >= _fecha
+                    and m.location_id = _ubicacion_id
+                    AND m.location_dest_id NOT IN (4,5)
+                GROUP BY m.location_id, m.product_id
+                union all
+                -- quants
+                SELECT sq.location_id, sq.product_id, sum(sq.qty) as product_qty
+                FROM stock_quant sq
+                inner join (
+                    select p.id
+                    from product_product p
+                    INNER JOIN product_template pt ON pt.id = p.product_tmpl_id
+                    where pt."type" = 'product'
+                        and (coalesce(pt.tipo_de_empaque,0) != 2)
+                ) as p on p.id = sq.product_id
+                WHERE sq.location_id = _ubicacion_id
+                GROUP BY sq.location_id, sq.product_id
+
+        ) as t
+        GROUP BY t.location_id, t.product_id
+        union all
+
+        select si.location_id, sil.product_id , 0 as product_qty, sum(sil.product_qty) as real
+        from stock_inventory si
+        inner join stock_inventory_line sil on sil.inventory_id = si.id
+        inner join (
+            select p.id
+            from product_product p
+            INNER JOIN product_template pt ON pt.id = p.product_tmpl_id
+            where pt."type" = 'product'
+                and (coalesce(pt.tipo_de_empaque,0) != 2)
+        ) as p on p.id = sil.product_id
+        inner join stock_location sl on sl.id = si.location_id
+        where si."date" >= _date_start::date and date < _date_end::date
+        and coalesce(si.inv_por_contabilidad,false) = true
+        and si.location_id = _ubicacion_id
+
+        group by si.location_id, sil.product_id
+
+    ) as t
+    group by t.location_id, t.product_id
+) as t;
+
+
+END;
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100
+  ROWS 1000;
+
+
+
+
+
+CREATE OR REPLACE FUNCTION public.sp_stock_history_fifo_lineas(_date_balance character varying, _date_start character varying, _date_end character varying,
+    _location_id integer, _product_id integer, _empaque integer, _categoria integer, inventariados integer)
+
+RETURNS TABLE(line_id integer,
+    product_id integer,
+    quantity numeric,
+    price numeric,
+    cjpu numeric,
+    total numeric,
+    date_invoice date,
+    invoice_number character varying,
+    partner_id integer)
+
+--returns boolean
+AS
+$BODY$
+
+
+declare _facturas RECORD;
+declare _productos RECORD;
+--declare _id_producto integer;
+declare _cantidad numeric;
+declare _ultima_linea integer;
+
+BEGIN
+
+
+        -- tabla para fifo con valores despues de inventario --
+        DROP TABLE IF EXISTS tmp_stock_product_qty_lineas;
+        CREATE TEMP TABLE tmp_stock_product_qty_lineas(
+            product_id integer not NULL,
+            qty numeric not null
+        );
+
+        insert INTO tmp_stock_product_qty_lineas (product_id, qty)
+        select id_producto, sum(cantidad_despues)
+        from (
+            SELECT t.id_ubicacion, t.id_producto, coalesce(t.despues,0) as cantidad_despues
+            from sp_stock_history_fifo(_date_start, _date_end, _location_id, _product_id , _empaque, _categoria, inventariados) t
+        ) as t
+        group by t.id_producto
+        having sum(t.cantidad_despues) > 0;
+
+
+        DROP TABLE IF EXISTS tmp_facturas_lineas CASCADE;
+        DROP SEQUENCE IF EXISTS tmp_facturas_lineas_id_seq;
+        CREATE SEQUENCE tmp_facturas_lineas_id_seq;
+
+        CREATE TEMP TABLE tmp_facturas_lineas(
+            line_id integer NOT NULL DEFAULT nextval('tmp_facturas_lineas_id_seq'),
+            product_id integer not NULL,
+            quantity numeric not NULL,
+            price numeric not NULL,
+            cjpu numeric NULL,
+            total numeric not NULL,
+            date_invoice date NULL,
+            invoice_number character varying NULL,
+            partner_id integer NULL
+        );
+
+
+        -- carga desde lineas de facturas --
+        insert into tmp_facturas_lineas ( product_id, quantity, price, cjpu, total, date_invoice, invoice_number, partner_id)
+        select ail.product_id, ail.quantity, ail.price_unit,
+            case when not t.cjpu is null then round((ail.price_unit * 0.02),2) else 0 end,
+            case when not t.cjpu is null then round((ail.price_unit + (ail.price_unit * 0.02)) * ail.quantity,2) else round(ail.price_unit * ail.quantity,2) end,
+ai.fecha_factura,ai.supplier_invoice_number,ai.partner_id
+        from account_invoice ai
+        inner join account_invoice_line ail on ail.invoice_id = ai.id
+        inner join (select distinct t.product_id from tmp_stock_product_qty_lineas t) p on p.product_id = ail.product_id
+        left join (
+            select invoice_line_id as cjpu
+            from account_invoice_line_tax
+            where tax_id=17
+        ) t on t.cjpu = ail.id
+        where ai.fecha_factura <= _date_balance::date
+        -- and ai.date_invoice >= _date_start::date
+        and ai.type = 'in_invoice'
+        and ai.state not in ('draft','cancel')
+        --and (ail.product_id = _producto_id or _producto_id = 0)
+        order by ai.fecha_factura desc;
+
+        -- carga desde el saldo inicial --
+        insert into tmp_facturas_lineas (product_id, quantity, price, cjpu, total, date_invoice, invoice_number)
+        SELECT distinct  si.product_id::integer, si.cantidad::numeric, si.precio_fifo::numeric, 0, round((si.cantidad * si.precio_fifo)::numeric,2)::numeric, si.fecha_valor::date, 'CARGA INICIAL'::character varying
+        FROM dtm_saldos_iniciales si;
+
+
+        CREATE INDEX ON tmp_facturas_lineas (product_id);
+
+
+        -- tabla para las facturas que van para el fifo
+        DROP TABLE IF EXISTS tmp_facturas_lineas_fifo CASCADE;
+        DROP SEQUENCE IF EXISTS tmp_facturas_lineas_fifo_id_seq;
+        CREATE SEQUENCE tmp_facturas_lineas_fifo_id_seq;
+
+        CREATE TEMP TABLE tmp_facturas_lineas_fifo(
+            line_id integer NOT NULL DEFAULT nextval('tmp_facturas_lineas_fifo_id_seq'),
+            product_id integer not NULL,
+            quantity numeric not NULL,
+            price numeric not NULL,
+            cjpu numeric NULL,
+            total numeric not NULL,
+            date_invoice date NULL,
+            invoice_number character varying NULL,
+            partner_id integer NULL
+        );
+
+        --CREATE INDEX ON tmp_facturas_lineas_fifo (product_id);
+
+        FOR _productos IN
+        SELECT f.product_id, f.qty
+        FROM tmp_stock_product_qty_lineas f
+        ORDER BY f.product_id desc
+        LOOP
+
+            _cantidad := _productos.qty;
+            --_id_producto := _productos.product_id;
+
+            FOR _facturas IN
+            SELECT f.*
+            FROM tmp_facturas_lineas f
+            where f.product_id = _productos.product_id
+            order by f.product_id, f.date_invoice desc
+            LOOP
+
+                if (_cantidad > _facturas.quantity)    then
+
+                    -- no alcanza con la factura, se inserta la factura y se continua con la siguiente
+                    insert into tmp_facturas_lineas_fifo (line_id, product_id, quantity, price, cjpu, total, date_invoice, invoice_number, partner_id)
+                    select f.line_id, f.product_id, f.quantity, f.price, f.cjpu, f.total, f.date_invoice, f.invoice_number, f.partner_id
+                    from tmp_facturas_lineas f
+                    where f.line_id = _facturas.line_id;
+
+                    _cantidad := _cantidad - _facturas.quantity;
+                    _ultima_linea := _facturas.line_id;
+
+                else
+
+                    -- alcanza con la factura, se inserta el saldo y termina con este producto
+                    insert into tmp_facturas_lineas_fifo (line_id, product_id, quantity, price, cjpu, total, date_invoice, invoice_number, partner_id)
+                    select f.line_id, f.product_id, _cantidad, f.price, f.cjpu, _cantidad * (f.price+f.cjpu), f.date_invoice, f.invoice_number, f.partner_id
+                    from tmp_facturas_lineas f
+                    where f.line_id = _facturas.line_id;
+
+                    _cantidad := 0;
+                    _ultima_linea := _facturas.line_id;
+
+                    EXIT;
+
+                end if;
+
+            end loop;
+
+            if (_cantidad > 0)    then
+                -- no me alcanzo --
+
+                insert into tmp_facturas_lineas_fifo (line_id, product_id, quantity, price, cjpu, total, date_invoice, invoice_number, partner_id)
+                select f.line_id, f.product_id, _cantidad, 0::numeric, 0::numeric, 0::numeric, null, 'SIN DATOS'::character varying, null
+                from tmp_facturas_lineas f
+                where f.line_id = _ultima_linea;
+
+            end if;
+
+        end loop;
+
+        -- eliminar la secuencia para que no de probelmas
+        ALTER TABLE tmp_facturas_lineas_fifo
+            ALTER COLUMN line_id DROP DEFAULT;
+        DROP SEQUENCE IF EXISTS tmp_facturas_lineas_fifo_id_seq;
+
+        ALTER TABLE tmp_facturas_lineas
+            ALTER COLUMN line_id DROP DEFAULT;
+        DROP SEQUENCE IF EXISTS tmp_facturas_lineas_id_seq;
+
+
+    RETURN query
+
+    select f.line_id, f.product_id, f.quantity, f.price, f.cjpu, f.total, f.date_invoice, f.invoice_number, f.partner_id
+    from tmp_facturas_lineas_fifo f
+    order by f.product_id, f.date_invoice desc;
+
+
+--return true;
+
+
+END;
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100
+  ROWS 1000;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+CREATE OR REPLACE FUNCTION public.sp_stock_history_fifo_resumen(_date_balance character varying, _date_start character varying, _date_end character varying,
+    _location_id integer, _product_id integer, _empaque integer, _categoria integer, inventariados integer)
+
+RETURNS TABLE(product_id integer,
+    quantity numeric,
+    total numeric)
+
+--returns boolean
+AS
+$BODY$
+
+
+declare _facturas RECORD;
+declare _productos RECORD;
+declare _cantidad numeric;
+
+BEGIN
+
+
+        -- tabla para fifo con valores despues de inventario --
+        DROP TABLE IF EXISTS tmp_facturas_fifo_resumen;
+        CREATE TEMP TABLE tmp_facturas_fifo_resumen(
+            product_id integer not NULL,
+            quantity numeric not NULL,
+            price numeric not NULL,
+            cjpu numeric NULL,
+            total numeric not NULL,
+            date_invoice date NULL,
+            invoice_number character varying NULL,
+            partner_id integer NULL
+        );
+
+        insert into tmp_facturas_fifo_resumen (product_id, quantity, price, cjpu, total, date_invoice, invoice_number, partner_id)
+        select f.product_id, f.quantity, f.price, f.cjpu, f.total, f.date_invoice, f.invoice_number, f.partner_id
+        from sp_stock_history_fifo_lineas(_date_balance, _date_start, _date_end, _location_id, _product_id , _empaque, _categoria, inventariados) f;
+
+
+    RETURN query
+
+    select f.product_id, sum(f.quantity) as quantity, sum(f.total) as total
+    from tmp_facturas_fifo_resumen f
+    group by f.product_id;
+
+
+--return true;
+
+
+END;
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100
+  ROWS 1000;
+
+
+

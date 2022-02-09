@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="wizard_dtm_informes_stock" model="ir.ui.view">
+            <field name="name">Informes</field>
+            <field name="model">dtm.amsj.stock.tipo</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form >
+                    <group >
+                        
+
+                        
+                        <field name="fecha_inicial" class="oe_inline" invisible="1"/>
+                        <field name="fecha_final" class="oe_inline" invisible="1"/>
+                        
+                           
+                        <field name="ubicacion" style="width: 50%%"  options="{'no_create': True, 'no_create_edit':True}"/>
+
+                        <field name="tipo_id" style="width: 50%%"  options="{'no_create': True, 'no_create_edit':True}"/>
+                        <field name="category_id" style="width: 50%%" required="True"  options="{'no_create': True, 'no_create_edit':True}"/>
+                        <field name="product_id" style="width: 50%%"  options="{'no_create': True, 'no_create_edit':True}"/>
+                       
+                         
+<!--                        <field name="opciones_productos" widget="radio" invisible="1"/>-->
+                        
+                        <field name="opciones_fecha" widget="radio" invisible="1"/>
+
+                        <field name="fecha_balance" string="Fecha"  required="True"/>
+
+
+                        <newline/>
+                   
+
+                        <field name="archivo_nombre" invisible="1" readonly="1"/>
+                        <field name="binario" filename="nombre_archivo" readonly="1" invisible="1"/>
+                      
+                    </group>
+                         <button class="oe_stat_button" name="action_export" icon="fa-cloud-download" string="Descargar" type="object" style="margin:80px 20px 20px 345px"></button>
+                </form>
+            </field>
+        </record>
+
+    <!-- ***************************************************************************** -->
+            <!-- Action del wizard -->
+        <record id="wizard_dtm_amsj_export_tipo_action" model="ir.actions.act_window">
+            <field name="name">Stock AMSJ</field>
+            <field name="res_model">dtm.amsj.stock.tipo</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="wizard_dtm_informes_stock"/>
+            <field name="target">new</field>
+        </record>
+
+
+
+         <menuitem
+                id="menu_stock_informe_tipo"
+                name="AMSJ STOCK"
+                parent="stock.next_id_61"
+                sequence="10"
+                action="wizard_dtm_amsj_export_tipo_action"
+                
+        />
+
+    </data>
+</openerp>

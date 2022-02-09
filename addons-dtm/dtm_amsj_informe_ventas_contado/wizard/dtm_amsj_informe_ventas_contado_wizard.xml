@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+
+        <record id="dtm_amsj_informe_ventas_contado_form" model="ir.ui.view">
+            <field name="name">Informe ventas contado</field>
+            <field name="model">dtm_amsj_informe_ventas_contado</field>
+            <field name="arch" type="xml">
+                <form string="Informe ventas contado">
+                    <group>
+                        <group>
+                        <field name="date_from" widget="datetime"/>
+                        <field name="date_to" widget="datetime"/>
+                    </group>
+
+                    <group>
+                        <field name="location_id"  options="{'no_quick_create':True,'no_create_edit': True, 'no_create':True}" />
+                    </group>
+
+                    </group>
+
+
+                    <footer>
+                        <button name="action_report"  string="PDF" type="object" class="oe_highlight"/>
+                        <button string="Cancelar"  class="oe_link" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+
+        <record id="dtm_amsj_informe_ventas_contado_action" model="ir.actions.act_window">
+            <field name="name">Informe ventas contado</field>
+            <field name="res_model">dtm_amsj_informe_ventas_contado</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+                    
+            <menuitem
+                action="dtm_amsj_informe_ventas_contado_action"
+                name="Informe ventas contado"
+                string="Informe ventas contado"
+                id="menu_informe_ventas_contado"
+                parent="purchase.menu_procurement_management"
+                sequence="15"
+        />
+
+
+
+    </data>
+</openerp>

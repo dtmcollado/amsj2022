@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="cp_wizard" model="ir.ui.view">
+            <field name="name">Reposición extraordinaria</field>
+            <field name="model">wizard.transferencia.interna</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Reposición extraordinaria">
+                    <header>
+                        <button
+                            name="action_create_transferencia"
+                            string="Crear"
+                            type="object"
+                            class="oe_highlight" />
+                        o
+                        <button
+                            type='special'
+                            special='cancel'
+                            string='Cancelar'
+                            class="oe_link"
+                        />
+
+
+                    </header>
+
+                     <button type="object"
+                                            name="action_refrescar"
+                                            class="oe_stat_button"
+                                            string="Cargar Productos"
+                                            icon="fa-list-alt">
+                                    </button>
+                    <group>
+
+
+                        <group>
+                              <!--<div class="oe_right oe_button_box" name="buttons">-->
+
+                                    <!--<button type="object"-->
+                                            <!--name="action_refrescar"-->
+                                            <!--class="oe_stat_button"-->
+                                            <!--icon="fa-list-alt">-->
+                                    <!--</button>-->
+
+                               <!--</div>-->
+                            <field name="location_dest_readonly" invisible="1" />
+                            <field
+                                name="new_location_dest_id"
+                                required="True"
+                                widget="selection"
+                                options="{'no_quick_create':True,'no_create_edit': True}"
+                                attrs="{'readonly':[('location_dest_readonly', '=', True)]}"
+                                string="Entregar a" />
+
+                            <field name="new_location_orig_id" required="True"
+                                   widget="selection"
+                                   options="{'no_quick_create':True,'no_create_edit': True}" string="Pedir a"/>
+
+                            <field name="move_lines" string="Productos">
+                                <tree editable="bottom" >
+                                    <field name="generico_id" string="Genérico" />
+                                    <field name="product_id" string="Producto"  options="{'no_quick_create':True,'no_create_edit': True}"/>
+                                    <field name="product_uom_qty" string="Cantidad"/>
+                                </tree>
+                            </field>
+
+                        </group>
+                    </group>
+
+                </form>
+            </field>
+        </record>
+
+    <!-- ***************************************************************************** -->
+
+        <record id="transferenciainterna_action" model="ir.actions.act_window">
+            <field name="name">Reposición extraordinaria</field>
+            <field name="res_model">wizard.transferencia.interna</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="cp_wizard"/>
+            <field name="target">new</field>
+        </record>
+
+
+
+        <menuitem
+                id="menu_transferencias_internas"
+                name="Pedido"
+                parent="stock.menu_stock_warehouse_mgmt"
+                sequence="3"
+                action="transferenciainterna_action"
+        />
+
+
+
+    </data>
+</openerp>

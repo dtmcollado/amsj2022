@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+        <record id="precios2_wizard_form" model="ir.ui.view">
+            <field name="name">Wizard importar precios</field>
+            <field name="model">amsj.precios</field>
+            <field name="arch" type="xml">
+                <form string="Importar">
+
+
+                    <group>
+                        <field name="columna_producto"/>
+                        <!-- <field name="columna_cantidad"/> -->
+                        <field name="columna_importe"/>
+                    </group>
+
+                    <group>
+                        <field name="file" />
+                    </group>
+
+                    <footer>
+                        <button name="import_csv"  string="Importar" type="object"/>
+                        <button string="Cancelar"  special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="precios_wizard_action" model="ir.actions.act_window">
+            <field name="name">Importar precios Farmacia</field>
+            <field name="res_model">amsj.precios</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+
+
+         <menuitem
+                name="Precios Costo Farmacia"
+                id="precios_titulo"
+                parent="purchase.menu_procurement_management"
+                sequence="15"
+        />
+
+
+        <menuitem action="precios_wizard_action"
+                  id="id_precios_wizard"
+                  sequence="1"
+                  name="Importar planilla Precios Productos"
+                  groups="base.group_erp_manager"
+                  parent="precios_titulo" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    </data>
+</openerp><!--
+ -->
+

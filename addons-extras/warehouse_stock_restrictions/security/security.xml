@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <!--<record id="filter_user_stock_picking_type_allowed" model="ir.rule">-->
+            <!--<field name="name">Filter Stock Picking Type Allowed</field>-->
+            <!--<field name="model_id" search="[('model','=','stock.picking.type')]" model="ir.model"/>-->
+            <!--<field name="groups" eval="[(4, ref('base.group_user'))]"/>-->
+            <!--<field name="domain_force">[('id','in', [ p.id for p in user.default_picking_type_ids ])]</field>-->
+        <!--</record>-->
+
+        <record id="group_restrict_warehouse" model="res.groups">
+            <field name="name">Restringir Almacen/Ubicacion</field>
+        </record>
+
+        <record id="filter_user_stock_picking_type_allowed_new" model="ir.rule">
+            <field name="name">Filtrar Almacen/Ubicacion</field>
+            <field name="model_id" search="[('model','=','stock.picking.type')]" model="ir.model"/>
+            <field name="groups" eval="[(4, ref('group_restrict_warehouse'))]"/>
+            <field name="domain_force">[('id','in', [ p.id for p in user.default_picking_type_ids ])]</field>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="False"/>
+        </record>
+
+        <!--<record id="group_restrict_ubicacion" model="res.groups">-->
+            <!--<field name="name">Limitar Ubicaciones</field>-->
+        <!--</record>-->
+
+        <!--<record id="filter_user_ubicacion" model="ir.rule">-->
+            <!--<field name="name">Filtrar Ubicaciones</field>-->
+            <!--<field name="model_id" search="[('model','=','stock.location')]" model="ir.model"/>-->
+            <!--<field name="groups" eval="[(4, ref('group_restrict_ubicacion'))]"/>-->
+            <!--<field name="domain_force">[('id','in', [ p.id for p in user.stock_location_ids ])]</field>-->
+            <!--<field name="perm_read" eval="True"/>-->
+            <!--<field name="perm_write" eval="True"/>-->
+            <!--<field name="perm_create" eval="True"/>-->
+            <!--<field name="perm_unlink" eval="False"/>-->
+        <!--</record>-->
+
+<!--stock_location_ids-->
+
+    </data>
+</openerp>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+
+        <record id="dtm_amsj_stock_location_ventas_contado_form" model="ir.ui.view">
+            <field name="name">stock.location.inherit.ventas.contado</field>
+            <field name="model">stock.location</field>
+            <field name="inherit_id" ref="dtm_amsj_stock_critico.view_dtm_amsj_almacen_extension_form"/>
+            <field name="arch" type="xml">
+
+                <field name="inv_contabilidad" position="after">
+                    <field name="ventas_contado"/>
+                </field>
+                
+            </field>
+        </record>
+
+
+    </data>
+</openerp>

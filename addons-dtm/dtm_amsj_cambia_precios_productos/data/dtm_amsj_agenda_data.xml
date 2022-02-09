@@ -1,0 +1,16 @@
+<?xml version="1.0" ?>
+<openerp>
+    <data>
+        <record model="ir.cron" id="ir_cron_scheduler_amsj_action">
+            <field name="name">AMSJ Procedimiento 2020</field>
+            <field name="user_id" ref="base.user_root"/>
+            <field name="interval_number">5</field>
+            <field name="interval_type">minutes</field>
+            <field name="numbercall">-1</field>
+            <field name="doall" eval="False"/>
+            <field name="model" eval="'scheduler.amsj'"/>
+            <field name="function" eval="'process_amsj_scheduler_precios'"/>
+            <field name="args">(None,)</field>
+        </record>
+    </data>
+</openerp>

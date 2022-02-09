@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+
+        <record id="dtm_amsj_dias_repeticion_form" model="ir.ui.view">
+            <field name="name">Importar días de repeticion</field>
+            <field name="model">dtm.amsj.dias.repeticion</field>
+            <field name="arch" type="xml">
+                <form string="Importar">
+                   <!--  <group>
+                        <field name="name"/>
+                        <field name="date"/>
+                    </group> -->
+
+                    <group>
+                        <field name="columna_producto"/>
+                        <field name="columna_especialidad"/>
+                        <field name="columna_dias"/>
+                    </group>
+
+                    <group>
+                        <field name="file" />
+                    </group>
+
+                    <footer>
+                        <button name="import_csv"  string="Importar" type="object"/>
+                        <button string="Cancelar"  special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="dtm_amsj_dias_repeticion_action" model="ir.actions.act_window">
+            <field name="name">Importar días de repetición</field>
+            <field name="res_model">dtm.amsj.dias.repeticion</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+                    
+            <menuitem
+                name="Días de Repetición"
+                id="menu_dias_repeticion"
+                parent="purchase.menu_procurement_management_product"
+                sequence="14"
+        />
+
+
+
+        <menuitem action="dtm_amsj_dias_repeticion_action"
+                  id="submenu_dias_repeticion"
+                  sequence="1"
+                  name="Importar planilla"
+                  parent="menu_dias_repeticion" />
+
+    
+
+
+    </data>
+</openerp>

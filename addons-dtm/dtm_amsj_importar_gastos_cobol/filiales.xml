@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+
+        <record model="ir.ui.view" id="view_aux_filiales_tree">
+            <field name="name">aux.filiales.tree</field>
+            <field name="model">aux.filiales</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree editable="top" string="Sucursales">
+                    <field name="name" readonly="True"/>
+                    <field name="codigo_cobol"  />
+                    <field name="almacen_id"/>
+                </tree>
+            </field>
+        </record>
+
+
+
+
+        <!-- ACCION PARA tipo_dispensacion -->
+        <record model="ir.actions.act_window" id="action_cobol">
+            <field name="name">Sucursales Cobol</field>
+            <field name="res_model">aux.filiales</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <!-- MENU  -->
+         <menuitem id="menu_sucursal_editing" name="Sucursales Cobol/Odoo"
+            parent="base.menu_config" action="action_cobol" sequence="9" />
+
+
+        <!--*******************************************************-->
+    </data>
+</openerp>

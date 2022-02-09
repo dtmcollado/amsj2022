@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="wizard_dtm_amsj_export_fifo" model="ir.ui.view">
+            <field name="name">Exportar Fifo</field>
+            <field name="model">dtm.amsj.export.fifo</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form >
+                    <group >
+                        
+                        <field name="tipo_resumen" widget="radio"/>
+                        
+                        <field name="fecha_inicial" class="oe_inline"/>
+                        <field name="fecha_final" class="oe_inline"/>
+                        
+                           
+                        <field name="ubicacion" style="width: 50%%" attrs="{'invisible': [('tipo_resumen','not in','ubicacion')]}"
+                             options="{'no_create': True, 'no_create_edit':True}"/>
+                        <field name="category_id" style="width: 50%%"  options="{'no_create': True, 'no_create_edit':True}"/>
+                        <field name="product_id" style="width: 50%%"  options="{'no_create': True, 'no_create_edit':True}"/>
+                       
+                         
+                        <field name="opciones_productos" widget="radio"/>
+                        
+                        <field name="opciones_fecha" widget="radio"
+                               />
+
+                        <field name="fecha_balance" string="Fecha"  required="True"/>
+
+
+                        <newline/>
+                   
+
+                        <field name="archivo_nombre" invisible="1" readonly="1"/>
+                        <field name="binario" filename="nombre_archivo" readonly="1" invisible="1"/>
+                      
+                    </group>
+                         <button class="oe_stat_button" name="action_export_validadas" icon="fa-cloud-download" string="Descargar" type="object" style="margin:80px 20px 20px 345px"></button>
+                </form>
+            </field>
+        </record>
+
+    <!-- ***************************************************************************** -->
+            <!-- Action del wizard -->
+        <record id="wizard_dtm_amsj_export_fifo_action" model="ir.actions.act_window">
+            <field name="name">Valuación y Stock</field>
+            <field name="res_model">dtm.amsj.export.fifo</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="wizard_dtm_amsj_export_fifo"/>
+            <field name="target">new</field>
+        </record>
+
+
+
+         <menuitem
+                id="menu_export_fifo"
+                name="Valuación del inventario FIFO"
+                parent="stock.menu_stock_inventory_control"
+                sequence="4"
+                action="wizard_dtm_amsj_export_fifo_action"
+                
+        />
+
+    </data>
+</openerp>

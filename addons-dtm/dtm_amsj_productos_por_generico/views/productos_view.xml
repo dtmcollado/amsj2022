@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+	<data>
+
+        <record id="productos_por_generico_tree" model="ir.ui.view">
+            <field name="name">Productos por Generico tree</field>
+            <field name="model">product.template</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <!--<field name="principio_activo_id" string="Genérico"/>-->
+                    <field name="name" string="Nombre"/>
+                    <field name="forma_de_compra" string="Tipo de compra"/>
+                    <field name="categ_id" string="Categoría interna"/>
+                    <field name="familia_id" string="Familia"/>
+                    <field name="concentracion_valor" string="Concentración"/>
+                    <field name="forma_farmaceutica_id" string="Forma farmacéutica"/>
+                    <field name="preferido" string="Preferido"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="search_productos_por_generico" model="ir.ui.view">
+            <field name="name">search Productos por Generico</field>
+            <field name="model">product.template</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="name" string="Producto"/>
+                    <field name="seller_ids" string="Proveedor" filter_domain="[('seller_ids.name.name', 'ilike', self)]"/>
+                    <field name="preferido" string="Preferido"/>
+                    <group expand="0" string="Group By">
+                        <filter string="Genérico" domain="[]" context="{'group_by':'principio_activo_id'}"/>
+                        <filter string="Tipo de compra" domain="[]" context="{'group_by':'forma_de_compra'}"/>
+                        <filter string="Categoría interna" domain="[]" context="{'group_by':'categ_id'}"/>
+                        <filter string="Familia" domain="[]" context="{'group_by':'familia_id'}"/>
+                        <filter string="Concentración" domain="[]" context="{'group_by':'concentracion_valor'}"/>
+                        <filter string="Forma farmacéutica" domain="[]" context="{'group_by':'forma_farmaceutica_id'}"/>
+                        <filter string="Preferido" domain="[]" context="{'group_by':'preferido'}"/>
+                    </group>
+                </search>
+             </field>
+         </record>
+
+        <record id="action_productos_por_generico" model="ir.actions.act_window">
+            <field name="name">Productos por Generico</field>
+            <field name="res_model">product.template</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="productos_por_generico_tree"/>
+            <field name="search_view_id" ref="search_productos_por_generico"/>
+        </record>
+
+		<menuitem id="menu_productos_por_generico" name="Productos por Genérico"
+                  parent="stock.menu_traceability"
+                  action="action_productos_por_generico" sequence="80"
+        />
+
+	</data>
+</openerp>

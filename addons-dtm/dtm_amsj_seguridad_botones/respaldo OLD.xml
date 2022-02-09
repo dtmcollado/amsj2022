@@ -1,0 +1,45 @@
+
+
+
+
+
+<!--                <xpath expr="//button[@string='Create Invoice']" position="attributes">
+                <attribute name="attrs">{}</attribute>
+                <attribute name="states">done</attribute>
+            </xpath> -->
+<!-- 
+            <button name="action_cancel" position = "attributes" > 
+        <attribute name = "invisible">1</attribute>
+            </button> -->
+
+
+
+              <!--   <xpath expr="//button[@name='action_cancel']" position="attributes"> 
+                
+                <attribute name="attrs">{'invisible':['|', ('create_uid','!=', user.id), ('state', 'not in',(assigned,confirmed,partially_available,draft,waiting))]}</attribute>
+
+                </xpath>
+ -->
+<!--                 <button name="action_cancel" states="assigned,confirmed,partially_available,draft,waiting" string="Cancel Transfer" groups="base.group_user" type="object"/> -->
+
+
+<!--             <record model="ir.rule" id="reference_id">
+            <field name="name">reference name</field>
+            <field name="model_id" ref="model_model_name"/>
+            <field eval="0" name="perm_unlink"/>
+            <field eval="0" name="perm_write"/>
+            <field eval="1" name="perm_read"/>
+            <field eval="0" name="perm_create"/>
+            <field name="domain_force">[ ('state','in',['open','paid'])]</field>
+            </record>
+
+            <record model="ir.rule" id="rule_btn_recibir_productos">
+            <field name="name">Btn Recibir Productos</field>
+            <field name="model_id" ref="dtm_amsj_stock_critico.view_dtm_amsj_almacenes_form"/>
+            <field name="domain_force">[('categ_id.name', 'like', 'Medicamentos')]</field>
+            <field name="groups" eval="[(4,ref('group_amsj_farmacia'))]"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            </record> -->

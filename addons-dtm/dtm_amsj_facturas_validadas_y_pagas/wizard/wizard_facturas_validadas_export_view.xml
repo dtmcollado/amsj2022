@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="wizard_facturas_validadas_export_form" model="ir.ui.view">
+            <field name="name">Facturas Validadas y Pagos</field>
+            <field name="model">wizard.facturas.validadas.export</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Facturas Validadas" >
+                    <group >
+                        <group string="Descargar Facturas">
+                            <field name="sector_id" string="Sector" required="True"
+                                   widget="selection"
+                                   options="{'no_quick_create':True,'no_create_edit': True}"
+                                   style="width:50%%"/>
+                            <field name="fecha_inicial" string="Fecha Contable Desde" required="True" />
+                            <field name="fecha_final" string="Fecha Contable Hasta" required="True"/>
+                            <field name="tipo_facturas" widget="radio"/>
+                            <field name="buscar_por_nro" />
+                            <field name="buscar_por_prove" />
+                            <newline/>
+                            <field name="archivo_nombre" invisible="1" readonly="1"/>
+                            <field name="binario" filename="nombre_archivo" readonly="1" invisible="1"/>
+                        </group>
+                        <newline/>
+                        <group string="Buscar por Nro Factura" attrs="{'invisible': [('buscar_por_nro','=',False)]}">
+                             <field name="nro_factura" style="width:10%%"/>
+                            <field name="facturas_ids" widget="many2many_tags" options="{'no_create_edit': True}" />
+                            <field name="bandera" widget="many2onebutton" readonly="1"/>
+                        </group>
+                        <group></group>>
+                        <group string="Buscar por Proveedor" attrs="{'invisible': [('buscar_por_prove','=',False)]}">
+                            <field name="proveedor_ids" options="{'no_quick_create':True,'no_create_edit': True}" style="width:50%%"/>
+                        </group>
+
+                    </group>
+                         <button class="oe_stat_button" name="action_export_validadas" icon="fa-cloud-download" string="Descargar" type="object" style="margin:80px 20px 20px 345px"></button>
+                </form>
+            </field>
+        </record>
+
+    <!-- ***************************************************************************** -->
+            <!-- Action del wizard -->
+        <record id="wizard_facturas_validadas_export_action" model="ir.actions.act_window">
+            <field name="name">Facturas Validadas y Pagos</field>
+            <field name="res_model">wizard.facturas.validadas.export</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="wizard_facturas_validadas_export_form"/>
+            <field name="target">new</field>
+        </record>
+
+
+
+         <menuitem
+                id="facturas_validadas_export"
+                name="Imprimir"
+                parent="menu_informe_facturas_validadas"
+                action="wizard_facturas_validadas_export_action"
+                sequence="11"
+        />
+
+        <menuitem
+                id="facturas_pagas_export"
+                name="Imprimir"
+                parent="menu_informe_facturas_pagas"
+                action="wizard_facturas_validadas_export_action"
+                sequence="55"
+        />
+
+
+
+
+    </data>
+</openerp>

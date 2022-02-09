@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+
+
+        <record id="dtm_amsj_importar_stock_critico_form" model="ir.ui.view">
+            <field name="name">Importar stock critico</field>
+            <field name="model">dtm.amsj.importar.stock.critico</field>
+            <field name="arch" type="xml">
+                
+        <!-- <div class="oe_right oe_button_box" name="buttons">
+        <button string="Stock actual" class="oe_stat_button" icon="fa-building-o" name="303" type="action" context="{'search_default_internal_loc': 1}"/>
+        <button string="Productos" class="oe_stat_button" icon="fa-filter" name="304" type="action" context="{'location_id': active_id}"/>
+         </div> -->
+
+
+                <form string="Importar">
+                    
+                    <group>
+                        <field name="ubicacion"/>
+                        <field name="columna_producto"/>
+                        <!-- <field name="columna_especialidad"/> -->
+                        <field name="stock_max"/>
+                    </group>
+
+                    <group>
+                        <field name="file" />
+                    </group>
+
+                    <footer>
+                        <button name="import_csv"  string="Importar" type="object"/>
+                        <button string="Cancelar"  special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="dtm_amsj_importar_stock_critico_action" model="ir.actions.act_window">
+            <field name="name">Importar Stock Critico</field>
+            <field name="res_model">dtm.amsj.importar.stock.critico</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+                    
+            <menuitem
+                name="Stock Crítico"
+                id="menu_stock_critico"
+                parent="stock.menu_stock_configuration"
+                sequence="5"
+        />
+
+
+
+        <menuitem action="dtm_amsj_importar_stock_critico_action"
+                  id="submenu_stock_critico"
+                  sequence="1"
+                  name="Importar planilla"
+                  parent="menu_stock_critico" />
+
+    
+
+
+    </data>
+</openerp>

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record model="ir.ui.view" id="view_dtm_amsj_compras_importadas_form">
+            <field name="name">dtm.amsj.consumos.cobol.form</field>
+            <field name="model">dtm.amsj.consumos.cobol</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+            <header>
+                <button name="confirmar" states="draft" string="Generar pedidos" type="object" class="oe_highlight"/>
+            </header>
+                <form string="CSV" version="7.0">
+                    <sheet string="Impo">
+                        <group colspan="4">
+                            <field name="name" string="Referencia" readonly="True"/>
+                            <field name="almacen" readonly="True"/>
+                            <field name="date" string="Fecha" readonly="True"/>
+<!--                            <field name="stock_picking_con_stock" string="Pedidos generados" readonly="True"/>-->
+<!--                            <field name="stock_picking_sin_stock" string="..." readonly="True"/>-->
+                            <field name="state" readonly="True"/>
+                        </group>
+
+                        <field name="line_ids" >
+                            <tree editable="top" create="false" delete="false" string="productos" colors="black:state == 'done';red:state in ('error1','error2')" >
+                                <field name="name" string="Ref. Interna" attrs="{'readonly':[('state', 'in', ('done'))]}"  />
+                                <field name="product_id" attrs="{'readonly':[('state', 'in', ('done'))]}"
+                                    options="{'no_quick_create':True,'no_create_edit': True}"/>
+                                <field name="quantity" attrs="{'readonly':[('state', 'in', ('done'))]}" />
+                                <field name="state" readonly="True"/>
+                            </tree>
+                        </field>
+                    </sheet>
+
+                </form>
+            </field>
+        </record>
+
+        <!-- VISTA TREE  -->
+        <record model="ir.ui.view" id="view_importar_csv_tree">
+            <field name="name">dtm.amsj.consumos.cobol.tree</field>
+            <field name="model">dtm.amsj.consumos.cobol</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Importadas" create="false" delete="false">
+                    <field name="name" string="Referencia"/>
+                    <field name="date" string="Fecha"/>
+                    <field name="create_uid" string="Usuario"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- ACCION  -->
+        <record model="ir.actions.act_window" id="action_csv">
+            <field name="name">Consumos importados desde planilla</field>
+            <field name="res_model">dtm.amsj.consumos.cobol</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+
+
+    </data>
+</openerp>

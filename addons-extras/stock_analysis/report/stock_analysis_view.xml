@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data>
+
+    <record id="stock_analysis_graph" model="ir.ui.view">
+         <field name="name">stock.analysis.graph</field>
+         <field name="model">stock.analysis</field>
+         <field name="arch" type="xml">
+             <graph string="Stock Análisis" type="pivot" stacked="True">
+                 <field name="tipo_empaque_id" type="row"/>
+                 <field name="product_id" type="row"/>
+                 <field name="location_id" type="col"/>
+                 <field name="qty" type="measure"/>
+             </graph>
+         </field>
+    </record>
+
+    <record id="stock_analysis_graph_search" model="ir.ui.view">
+        <field name="name">stock.analysis.search</field>
+        <field name="model">stock.analysis</field>
+        <field name="arch" type="xml">
+            <search string="Stock Análisis">
+                <field name="product_id"/>
+                <field name="lot_id"/>
+                <field name="package_id"/>
+                <field name="location_id"/>
+                <field name="categ_id"/>
+                <field name="company_id"/>
+                <filter name="internal_location" string="Ubicación interna"
+                        domain="[('location_id.usage', '=', 'internal')]"/>
+                <separator/>
+<!--                <filter name="stockable" string="Productos Almacenables" domain="[('product_id.type', '=', 'product')]"/>-->
+<!--                <filter name="consumable" string="Productos Consumibles" domain="[('product_id.type', '=', 'consu')]"/>-->
+                <filter name="psicofarmaco" string="Psicofarmacos" domain="[('product_id.tipo_id', '=', 'Psicofarmaco')]"/>
+                <filter name="estupefacientes" string="Estupefacientes" domain="[('product_id.tipo_id', '=', 'Estupefacientes')]"/>
+                <filter name="medicamento" string="Medicamentos" domain="[('product_id.tipo_id', '=', 'Medicamento')]"/>
+                <filter name="alimento" string="Alimentos" domain="[('product_id.tipo_id', '=', 'ALIMENTO')]"/>
+
+                <separator/>
+<!--                <filter string="Este año" name="year" domain="[('in_date','&lt;=', time.strftime('%%Y-12-31')),('in_date','&gt;=',time.strftime('%%Y-01-01'))]"/>-->
+                <group expand="1" string="Group By">
+<!--                    <filter string="Categoria" name="Category" context="{'group_by':'categ_id'}"/>-->
+                    <filter string="Producto" name="Product" context="{'group_by':'product_id'}"/>
+                    <filter string="Tipo Empaque" name="empaque"  context="{'group_by':'tipo_empaque_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_stock_analysis_graph" model="ir.actions.act_window">
+        <field name="name">Stock Análisis</field>
+        <field name="res_model">stock.analysis</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">graph</field>
+        <field name="search_view_id" ref="stock_analysis_graph_search"/>
+        <field name="view_id" ref="stock_analysis_graph"/>
+        <field name="context">{'search_default_internal_location':1}</field>
+    </record>
+
+    <!-- DTM-->
+     <record id="consumos_analysis_graph" model="ir.ui.view">
+         <field name="name">consumos.analysis.graph</field>
+         <field name="model">consumos.analysis</field>
+         <field name="arch" type="xml">
+             <graph string="Análisis Consumos" type="pivot" stacked="True">
+                 <field name="out_date" type="row"/>
+                 <field name="familia_id" type="row"/>
+                 <field name="location_id" type="col"/>
+                 <field name="qty" type="measure"/>
+             </graph>
+         </field>
+    </record>
+
+    <record id="consumos_analysis_graph_search" model="ir.ui.view">
+        <field name="name">consumos.analysis.search</field>
+        <field name="model">consumos.analysis</field>
+        <field name="arch" type="xml">
+            <search string="Análisis Consumos">
+                <field name="product_id"/>
+                <field name="location_id"/>
+                <filter name="internal_location" string="Ubicación interna"
+                        domain="[('location_id.usage', '=', 'internal')]"/>
+                <!--<filter name="principio_activo_id" string="Generico"/>-->
+                <!--<filter name="date" string="Fecha" context="{'group_by':'out_date:month'}"/>-->
+
+                <filter string="Mes Actual"
+                        name="mes"
+                        domain="[('out_date','&lt;=', time.strftime('%%Y-%%m-31')),('out_date','&gt;=',time.strftime('%%Y-%%m-01'))]"/>
+
+                <separator/>
+
+                <group expand="1" string="Agrupar por">
+                    <filter string="Tipo Empaque" name="empaque"  context="{'group_by':'tipo_empaque_id'}"/>
+                    <filter string="Generico" name="Generico"  context="{'group_by':'principio_activo_id'}"/>
+                    <filter string="Producto" name="Product" context="{'group_by':'product_id'}"/>
+                    <filter string="Familia" name="Familia" context="{'group_by':'familia_id'}"/>
+                    <filter string="Fecha" name="Fecha" context="{'group_by':'out_date:month'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_consumos_analysis_graph" model="ir.actions.act_window">
+        <field name="name">Análisis Consumos</field>
+        <field name="res_model">consumos.analysis</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">graph</field>
+        <field name="search_view_id" ref="consumos_analysis_graph_search"/>
+        <!--<field name="domain">[('out_date','like',time.strftime('%Y-%m'))]</field>-->
+        <field name="view_id" ref="consumos_analysis_graph"/>
+        <field name="context">{'search_default_internal_location':1}</field>
+    </record>
+
+    <!--sicofarmacos -->
+
+
+     <record id="sicofarmacos_analysis_graph" model="ir.ui.view">
+         <field name="name">sicofarmacos.analysis.graph</field>
+         <field name="model">sicofarmacos.analysis</field>
+         <field name="arch" type="xml">
+             <graph string="Análisis Consumos Sicofármacos" type="pivot" stacked="True">
+                 <field name="out_date" type="row"/>
+                 <field name="product_id" type="row"/>
+                 <field name="tipo_empaque_id" type="row"/>
+                 <field name="location_id" type="col"/>
+                 <field name="qty" type="measure"/>
+             </graph>
+         </field>
+    </record>
+
+    <record id="sicofarmacos_analysis_graph_search" model="ir.ui.view">
+        <field name="name">sicofarmacos.analysis.search</field>
+        <field name="model">sicofarmacos.analysis</field>
+        <field name="arch" type="xml">
+            <search string="Análisis Consumos Sicofármacos">
+                <field name="product_id"/>
+                <field name="location_id"/>
+
+
+                <separator/>
+
+                <group expand="1" string="Agrupar por">
+                    <filter string="Tipo Empaque" name="empaque"  context="{'group_by':'tipo_empaque_id'}"/>
+<!--                    <filter string="Generico" name="Generico"  context="{'group_by':'principio_activo_id'}"/>-->
+<!--                    <filter string="Producto" name="Product" context="{'group_by':'product_id'}"/>-->
+<!--                    <filter string="Fecha" name="Fecha" context="{'group_by':'out_date:month'}"/>-->
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_sicofarmacos_analysis_graph" model="ir.actions.act_window">
+        <field name="name">Análisis Consumos Sicofármacos</field>
+        <field name="res_model">sicofarmacos.analysis</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">graph</field>
+        <field name="search_view_id" ref="sicofarmacos_analysis_graph_search"/>
+        <field name="view_id" ref="sicofarmacos_analysis_graph"/>
+<!--        <field name="context">{'search_default_internal_location':1}</field>-->
+    </record>
+
+    <!--fin sicofaramcos-->
+
+    <!-- estupefacientes -->
+
+
+     <record id="estupefacientes_analysis_graph" model="ir.ui.view">
+         <field name="name">estupefacientes.analysis.graph</field>
+         <field name="model">estupefacientes.analysis</field>
+         <field name="arch" type="xml">
+             <graph string="Análisis Consumos Estupefacientes" type="pivot" stacked="True">
+                 <field name="out_date" type="row"/>
+                 <field name="product_id" type="row"/>
+                 <field name="tipo_empaque_id" type="row"/>
+                 <field name="location_id" type="col"/>
+                 <field name="qty" type="measure"/>
+             </graph>
+         </field>
+    </record>
+
+    <record id="estupefacientes_analysis_graph_search" model="ir.ui.view">
+        <field name="name">estupefacientes.analysis.search</field>
+        <field name="model">estupefacientes.analysis</field>
+        <field name="arch" type="xml">
+            <search string="Análisis Consumos Estupefacientes">
+                <field name="tipo_empaque_id"/>
+                <field name="product_id"/>
+                <field name="location_id"/>
+
+
+                <separator/>
+
+                <group expand="1" string="Agrupar por">
+                    <filter string="Tipo Empaque" name="empaque"  context="{'group_by':'tipo_empaque_id'}"/>
+<!--                    <filter string="Producto" name="Product" context="{'group_by':'product_id'}"/>-->
+<!--                    <filter string="Fecha" name="Fecha" context="{'group_by':'out_date:month'}"/>-->
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_estupefacientes_analysis_graph" model="ir.actions.act_window">
+        <field name="name">Análisis Consumos Estupefacientes</field>
+        <field name="res_model">estupefacientes.analysis</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">graph</field>
+        <field name="search_view_id" ref="estupefacientes_analysis_graph_search"/>
+        <field name="view_id" ref="estupefacientes_analysis_graph"/>
+        <field name="context">{'search_default_internal_location':1}</field>
+    </record>
+
+    <!--fin estupefacientes-->
+
+
+    <!--DTM fin-->
+    <menuitem
+            action="action_stock_analysis_graph"
+            id="menu_action_stock_analysis_graph"
+            parent="stock.next_id_61"/>
+
+     <menuitem
+            action="action_consumos_analysis_graph"
+            id="menu_action_consumos_analysis_graph"
+            parent="stock.next_id_61"/>
+
+     <menuitem
+            action="action_sicofarmacos_analysis_graph"
+            id="menu_action_sicofarmacos_analysis_graph"
+            parent="stock.next_id_61"/>
+
+    <menuitem
+            action="action_estupefacientes_analysis_graph"
+            id="menu_action_estupefacientes_analysis_graph"
+            parent="stock.next_id_61"/>
+
+
+
+</data>
+</openerp>

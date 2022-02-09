@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+
+        <!---->
+        <record id="inherited_view_product_product_form" model="ir.ui.view">
+            <field name="name">product.product.modificado</field>
+            <field name="model">product.template</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="product.product_template_only_form_view"/>
+            <field name="arch" type="xml">
+                <data>
+                    <field name="list_price" position="after">
+                        <field name="categoria_id"/>
+                    </field>
+
+
+                    <field name="default_code" position="after">
+                        <field name="prioridad_id"/>
+                    </field>
+
+                    <!--purchase_ok  y  sale_ok-->
+
+
+                    <xpath expr="//field[@name='sale_ok']" position="attributes">
+                        <attribute name="invisible">True</attribute>
+                    </xpath>
+
+                    <xpath expr="//label[@for='sale_ok']" position="attributes">
+                        <attribute name="invisible">True</attribute>
+                    </xpath>
+
+
+                    <xpath expr="//field[@name='purchase_ok']" position="attributes">
+                        <attribute name="invisible">True</attribute>
+                    </xpath>
+
+                    <xpath expr="//label[@for='purchase_ok']" position="attributes">
+                        <attribute name="invisible">True</attribute>
+                    </xpath>
+
+                    <xpath expr="//div[@name='buttons']" position="inside">
+                        <button string="Prec. Negociados" type="object"
+                                name="action_view_precios"
+                                class="oe_stat_button" icon="fa fa-dollar"
+                                groups="dtm_amsj_seguridad.group_amsj_farmacia"/>
+                    </xpath>
+
+                </data>
+
+                <xpath expr="//page[@name='sales']" position="before">
+                    <page string="Farmacia" name="farmacia" groups="dtm_amsj_seguridad.group_amsj_farmacia">
+                        <group name="properties">
+                            <group>
+                                <field name="principio_activo_id"/>
+                                <field name="tipo_id"/>
+                                <field name="familia_id"/>
+                                <field name="variante_id"/>
+                                <field name="nivel_prescripcion_ids" widget="many2many_tags"/>
+                                <field name="forma_de_compra"/>
+                                <field name="max_dias_repticion"/>
+
+                            </group>
+
+                            <group>
+                                <field name="ftm"/>
+                                <field name="sema_ucor"/>
+                                <field name="grupo_id"/>
+                                <field name="via_de_administracion"/>
+                                <field name="especialidades_repite_ids" widget="many2many_tags"/>
+                                <field name="codigo_geosalud"/>
+                            </group>
+
+
+                            <!--***********************************************-->
+                            <group string="Concentración">
+                                <field name="concentracion_valor"/>
+                                <field name="concentracion_unidad" string="Unidad de medida"/>
+                            </group>
+
+                            <group string="Presentación">
+                                <field name="presentacion_valor"/>
+                                <!--<field name="presentacion_unidad" string="Concentración x Unidad de medida"/>-->
+                                <field name="presentacion_id" string="Unidad de cantidad"/>
+                            </group>
+
+                            <!--<group string="Similar">-->
+                            <!--<field name="producto_simil_ids"/>-->
+                            <!--</group>-->
+
+
+                        </group>
+
+                        <group string="Dispensación">
+                            <field name="dispensa_ids" nolabel="1">
+                                <tree string="" editable="bottom" create="false">
+                                    <field name="name"/>
+                                    <field name="unidad_cantidad"/>
+                                    <field name="cantidad"/>
+                                </tree>
+                            </field>
+                        </group>
+
+                         <group string="Similares">
+                            <field name="similiar_ids" nolabel="1">
+                                <tree string="" editable="bottom" create="true">
+                                    <field name="name"/>
+                                    <field name="categ_id"/>
+                                    <field name="type"/>
+                                </tree>
+                            </field>
+                        </group>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+
+
+        <record id="act_product_price" model="ir.actions.act_window">
+            <!--<field name="context">{'search_default_product_id': active_id, 'default_product_id': active_id}</field>-->
+            <field name="name">Presupuestos</field>
+            <field name="res_model">purchase.order</field>
+            <field name="view_id" ref="purchase.purchase_order_tree"/>
+        </record>
+
+
+    </data>
+</openerp>

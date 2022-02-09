@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<openerp>
+    <data>
+        <!--<function model="wizard.compras_centralizadas" name="amsj_engine_install"/>-->
+        <record id="wizard_vista_dinamica_view" model="ir.ui.view">
+            <field name="name">Informe</field>
+            <field name="model">wizard.vista.dinamica</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Carga vista" >
+                    <group >
+                        <group>
+                            <field name="location_id" string="Ubicación" domain="[('sector','!=',False)]"  options="{'no_quick_create':True,'no_create_edit': True}" />
+                            <field name="categoria_id" required="True"   options="{'no_quick_create':True,'no_create_edit': True}" />
+<!--                            <field name="forma_de_compra_id" string="Tipo de Compra"/>-->
+                            <field name="fecha_desde" string="Fecha desde"/>
+                            <field name="fecha_hasta" string="Fecha hasta"/>
+                        </group>
+                    </group>
+                            <button name="carga_vista_dinamica" string="Generar Informe" type="object" icon="gtk-ok" />
+                </form>
+            </field>
+        </record>
+
+    <!-- ***************************************************************************** -->
+            <!-- Action del wizard -->
+        <record id="wizard_vista_dinamica_view_action" model="ir.actions.act_window">
+            <field name="name">Informe de Consumos</field>
+            <field name="res_model">wizard.vista.dinamica</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="wizard_vista_dinamica_view"/>
+            <field name="target">new</field>
+        </record>
+
+       <menuitem name="Informe de Consumos" action="wizard_vista_dinamica_view_action" id="menu_vista_dinamica_productos" parent="stock.menu_traceability" sequence="8"/>
+
+
+    </data>
+</openerp>

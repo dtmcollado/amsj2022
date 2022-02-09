@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+
+
+        <record id="dtm_amsj_remitos_pendientes_de_facturacion_form" model="ir.ui.view">
+            <field name="name">Remitos Pendientes de Facturacion</field>
+            <field name="model">dtm.amsj.remitos.pendientes.de.facturacion</field>
+            <field name="arch" type="xml">
+            <form string="Remitos Pendientes de Facturación">
+                    
+                    <group >
+                        <group string="Remitos Pendientes de Facturacion">
+                            <field name="sector_id" string="Sector" 
+                                    required="True"
+                                   widget="selection"
+                                   options="{'no_quick_create':True,'no_create_edit': True}" style="width: 50%%"
+                                   
+                            />
+                            <field name="fecha_inicial" string="Fecha Compra Desde" required="True" />
+                            <field name="fecha_final" string="Fecha Compra Hasta" required="True"/>
+                            <field name="tipo_facturas" widget="radio" invisible="True"/>
+<!--                            <field name="valores_cero"/>-->
+
+                            <newline/>
+                            <field name="archivo_nombre" invisible="1" readonly="1"/>
+                            <field name="binario" filename="nombre_archivo" readonly="1" invisible="1"/>
+                        </group>
+
+                    </group>
+<!--                         <button class="oe_stat_button" name="action_export_validadas" icon="fa-cloud-download" string="Descargar" type="object" style="margin:80px 20px 20px 345px"></button>-->
+                         <button class="oe_stat_button" name="action_remitos_pendientes" icon="fa-cloud-download" string="Descargar" type="object" style="margin:80px 20px 20px 345px"></button>
+                
+                </form>
+            </field>
+        </record>
+
+        <record id="dtm_amsj_remitos_pendientes_de_facturacion_action" model="ir.actions.act_window">
+            <field name="name">Remitos Pendientes de Facturacion</field>
+            <field name="res_model">dtm.amsj.remitos.pendientes.de.facturacion</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+                    
+            <menuitem
+                name="Remitos Pendientes"
+                id="menu_remitos_pendientes"
+                parent="purchase.menu_procurement_management"
+                sequence="80"
+                
+        />
+
+        <menuitem
+                name="Exportar Remitos"
+                id="submenu_remitos_pendientes"
+                parent="menu_remitos_pendientes"
+                sequence="80"
+                action="dtm_amsj_remitos_pendientes_de_facturacion_action"
+        />
+
+
+
+    </data>
+</openerp>

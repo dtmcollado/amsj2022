@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+  <data>
+
+      <record model="ir.rule" id="regla_transferencias">
+         <field name="name">Transferencias controla stock</field>
+         <field name="model_id" ref="stock.model_stock_picking"/>
+         <field name="domain_force">[('location_id','in',[p.id for p in user.stock_location_stock_ids])]</field>
+         <field name="perm_create" eval="1"/>
+         <field name="perm_unlink" eval="1"/>
+         <field name="perm_write" eval="1"/>
+         <field name="perm_read" eval="1"/>
+      </record>
+
+
+  </data>
+</openerp>

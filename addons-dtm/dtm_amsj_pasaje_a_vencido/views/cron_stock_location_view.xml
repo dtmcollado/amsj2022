@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data noupdate="0">
+        <record model="ir.cron" id="ir_cron_productos_vencidos_por_vencer_amsj_action">
+            <field name="name">Transferencia automáticas de productos vencidos o por vencer</field>
+            <field name="user_id" ref="base.user_root"/>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="numbercall">-1</field>
+            <field name="doall" eval="False"/>
+            <field name="model" eval="'stock.picking'"/>
+            <field name="function" eval="'cron_pasaje_a_vencido'"/>
+            <field eval="'()'" name="args" />
+        </record>
+    </data>
+</openerp>

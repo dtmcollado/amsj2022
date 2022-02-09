@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <!-- COMPANY -->
+        <record id="view_base_uy_company_form" model="ir.ui.view" >
+            <field name="name">res.company.base.uy.form.inherit</field>
+            <field name="model">res.company</field>
+            <field name="inherit_id" ref="base.view_company_form"/>
+            <field name="arch" type="xml">
+                <data>
+                    <field name="vat" position="attributes">
+                        <attribute name="string">RUT</attribute>
+                    </field>
+                </data>
+            </field>
+        </record>
+
+        <!-- PARTNER -->
+        <record id="view_base_uy_res_partner_form" model="ir.ui.view" >
+            <field name="name">res.partner.base.uy.form.inherit</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base_vat.view_partner_form"/>
+            <field name="arch" type="xml">
+                <data>
+                <label for="vat" position="replace">
+                    <label for="vat" string="RUT"/>
+                </label>
+                </data>
+            </field>
+        </record>
+
+    </data>    
+</openerp>

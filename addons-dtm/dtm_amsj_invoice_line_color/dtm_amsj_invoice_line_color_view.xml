@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record model="ir.ui.view" id="dtm_amsj_invoice_line_color_supplier_inherit">
+            <field name="name">Dtm_amsj_invoice_line_color_supplier</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="account.invoice_supplier_form"/>
+            <field name="arch" type="xml">
+
+            <xpath expr="//tree[@string='Invoice lines']/field[@name='quantity']" position="after">
+                    <!-- <xpath expr="/tree/field[@name='display_name']" position="after">-->
+                    <!--<xpath expr="//notebook/page/field[@name='invoice_line']/tree/" position="attributes">-->
+                 <field name="color"  invisible="1" />
+            </xpath>
+
+
+            <xpath expr="//tree[@string='Invoice lines']" position="attributes">
+                            <!--<xpath expr="//notebook/page/field[@name='invoice_line']/tree/" position="attributes">-->
+                            <!--<attribute name="colors" >Red:color==True and state == 'draft'</attribute>-->
+                <attribute name="colors"> Red:color==True </attribute>
+            </xpath>
+            </field>
+        </record>
+
+
+
+        <record model="ir.ui.view" id="dtm_amsj_invoice_line_color_inherit">
+            <field name="name">Dtm_amsj_invoice_line_color</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="account.invoice_form"/>
+            <field name="arch" type="xml">
+
+
+            <xpath expr="//tree[@string='Invoice Lines']/field[@name='quantity']" position="after">
+                 <field name="color" invisible="1"/>
+            </xpath>
+
+
+
+            <xpath expr="//tree[@string='Invoice Lines']" position="attributes">
+                <attribute name="colors"> Red:color==True </attribute>
+            </xpath>
+
+
+            </field>
+
+        </record>
+
+
+    </data>
+</openerp>
+

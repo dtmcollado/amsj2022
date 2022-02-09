@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+
+        <record id="dtm_amsj_importar_form" model="ir.ui.view">
+            <field name="name">Importar Consumos</field>
+            <field name="model">dtm.amsj.importar.consumos</field>
+            <field name="arch" type="xml">
+
+                <form>
+                    <sheet>
+
+                        <lable style="color:red">
+                            <i>Al seleccionar una ubicación no se tomará la ubicación del archivo</i>
+                        </lable>
+                        <group>
+                            <field name="ubicacion" style="width:70%%"
+                                   options="{'no_create': True, 'no_create_edit':True}"/>
+                            <field name="empaque" style="width:70%%"
+                                   options="{'no_create': True, 'no_create_edit':True}"/>
+                        </group>
+                        <br/>
+
+                        <group>
+                            <field name="file"/>
+                        </group>
+                        <br/>
+                        <br/>
+                        <group>
+                            <field name="archivo_nombre" invisible="1"/>
+                            <field name="archivo_contenido" filename="archivo_nombre" readonly="1"/>
+                            <field name="bandera" widget="many2onebutton" invisible="1"/>
+                        </group>
+
+
+                        <field name="mostrar" readonly="1" style="color:blue"/>
+                        <field name="archivo_para_errores" invisible="1" style="color:blue"/>
+                        <field name="archivo_errores_contenidos" filename="archivo_para_errores" readonly="1"/>
+                        <br/>
+
+
+                        <button class="oe_stat_button" name="import_csv_tipo" icon="fa-cloud-upload"
+                                string="Importar tipo compra" type="object"
+                                style="margin:80px 20px 20px 345px">
+
+                        </button>
+                        <button class="oe_stat_button" name="import_csv_consumos_nuevos" icon="fa-cloud-upload"
+                                string="Importar" type="object" style="margin:80px 20px 20px 345px">
+
+                        </button>
+<!--                        <button class="oe_stat_button" name="generar" icon="fa-cloud-upload" string="Generar"-->
+<!--                                type="object" style="margin:80px 20px 20px 345px">-->
+
+<!--                        </button>-->
+
+                    </sheet>
+
+                </form>
+            </field>
+        </record>
+
+        <record id="dtm_amsj_importar_action" model="ir.actions.act_window">
+            <field name="name">Importar Consumos desde Cobol</field>
+            <field name="res_model">dtm.amsj.importar.consumos</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="target">current</field>
+        </record>
+
+
+        <menuitem
+                action="dtm_amsj_importar_action"
+                name="Importar CSV Consumos"
+                id="menu_importar_consumos"
+                parent="stock.menu_traceability"
+                sequence="14"
+        />
+
+
+    </data>
+</openerp>

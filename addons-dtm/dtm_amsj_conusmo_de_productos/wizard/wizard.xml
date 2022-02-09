@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="pdf_wizard" model="ir.ui.view">
+            <field name="name">Consumos PDF</field>
+            <field name="model">wizard.consumos_pdf</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Consumos">
+                    <header>
+
+
+                        <button
+                                name="action_excel_report_resumen"
+                                string="Crear Planilla resumen"
+                                type="object"
+                                class="oe_highlight"
+                        />
+                         <button
+                                name="action_excel_report"
+                                string="Crear Planilla Detallada"
+                                type="object"
+                                class="oe_highlight"
+                        />
+                        <button
+                                name="action_detallado_producto"
+                                string="Detallado por Producto"
+                                type="object"
+                                class="oe_highlight"
+                        />
+                       <button string="_Cancel" class="oe_link"
+                            special="cancel" />
+                    </header>
+
+                    <group>
+
+                        <group string="Rango de fechas a Consultar">
+                            <group>
+                                <field name="fecha_inicial" string="Fecha Desde" required="True"/>
+                            </group>
+                            <group>
+                                <field name="fecha_final" string="Fecha Hasta" required="True"/>
+                            </group>
+
+                            <newline/>
+                        </group>
+
+
+                    </group>
+
+                    <group string="Filtros">
+                        <group>
+                            <field name="solo_consumos"/>
+                            <field name="sector_todos" invisible="True"/>
+                            <field name="sector_ids" widget="many2many_tags"  required="True"
+                                   attrs="{'invisible': [('sector_todos','=',True)]}"
+                             options="{'no_quick_create':True,'no_create_edit': True, 'no_create':True}"/>
+                        </group>
+
+                        <group>
+                            <field name="categoria_todos" />
+                            <field name="categoria_ids" widget="many2many_tags"
+                                   attrs="{'invisible': [('categoria_todos','=',True)]}"
+                             options="{'no_quick_create':True,'no_create_edit': True, 'no_create':True}"/>
+                        </group>
+                    </group>
+
+                    <group>
+                        <group string="Origen">
+                            <field name="almacen_origen_ids" widget="many2many_tags"  options="{'no_quick_create':True,'no_create_edit': True, 'no_create':True}"/>
+                            <newline/>
+                            <field name="origen_ids" widget="many2many_tags"  options="{'no_quick_create':True,'no_create_edit': True, 'no_create':True}"/>
+
+                        </group>
+
+                        <group string="Destino">
+                             <field name="almacen_destino_ids" widget="many2many_tags"  options="{'no_quick_create':True,'no_create_edit': True, 'no_create':True}"/>
+                            <newline/>
+                            <field name="destino_ids" widget="many2many_tags"  options="{'no_quick_create':True,'no_create_edit': True, 'no_create':True}"/>
+
+
+                        </group>
+                    </group>
+                    <group>
+<!--                        <field name="todos_FTM"/>-->
+<!--                        <field name="FTM"-->
+<!--                               attrs="{'invisible': [('todos_FTM','=',True)]}"  />-->
+<!--                        <newline/>-->
+                        <field name="centro_costo"/>
+                    </group>
+
+
+                </form>
+            </field>
+        </record>
+
+        <!-- ***************************************************************************** -->
+
+        <!-- Action  wizard -->
+        <record id="wizard_pdf_action" model="ir.actions.act_window">
+            <field name="name">Consumos</field>
+            <field name="res_model">wizard.consumos_pdf</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="pdf_wizard"/>
+            <field name="target">new</field>
+        </record>
+
+        <menuitem id="menu_consumo_de_productos_pdf" name="Consumos FIFO"
+                  parent="account.menu_finance_reporting"
+                  action="wizard_pdf_action" sequence="81"
+        />
+
+    </data>
+</openerp>

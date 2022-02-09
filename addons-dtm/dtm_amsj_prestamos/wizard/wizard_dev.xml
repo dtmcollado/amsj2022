@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="dev_wizard" model="ir.ui.view">
+            <field name="name">Devolución de préstamos a terceros</field>
+            <field name="model">wizard.prestamos</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Devolución de préstamos a terceros">
+                    <header>
+                        <button
+                                name="action_devolucion_prestamo_a_terceros"
+                                string="Generar"
+                                type="object"
+                                class="oe_highlight"/>
+                        o
+                        <button
+                                type='special'
+                                special='cancel'
+                                string='Cancelar'
+                                class="oe_link"
+                        />
+
+
+                    </header>
+
+                    <group>
+
+                        <group>
+
+                            <field name="location_dest_readonly" invisible="1"/>
+                            <field name="sector_ids" required="True" readonly="True"/>
+                            <field name="proveedor_related" readonly="True"/>
+                            <field
+                                    name="new_location_orig_id"
+                                    required="True"
+                                    domain="[('usage', '=', 'supplier'),('partner_id','!=',False)]"
+                                    options="{'no_quick_create':True,'no_create_edit': True}"
+                                    string="Origen"/>
+
+                            <field name="new_location_dest_id" string="Destino" required="True" readonly="True"/>
+
+                            <field name="move_lines" string="Productos">
+                                <tree editable="bottom" create="true"
+                                      options="{'no_open':True,'no_quick_create':True,'no_create_edit': True}">
+                                    <field name="product_id"
+                                           options="{'no_open':True,'no_quick_create':True,'no_create_edit': True}"
+                                           string="Producto" readonly="0"/>
+                                    <field name="stock" string="Cantidad Actual" readonly="1" invisible="1"/>
+                                    <field name="stock_bak" string="Cantidad Actual BAK" invisible="1"/>
+                                    <field name="product_uom_qty" string="Cantidad"/>
+                                </tree>
+                            </field>
+
+                        </group>
+                    </group>
+                    <field name="note" nolabel="1" placeholder="Notas (detalle de Lote , Motivo del envio)"/>
+                </form>
+            </field>
+        </record>
+
+        <!-- ***************************************************************************** -->
+
+        <record id="dev_action" model="ir.actions.act_window">
+            <field name="name">Devolución de préstamos a terceros</field>
+            <field name="res_model">wizard.prestamos</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="dev_wizard"/>
+            <field name="target">new</field>
+        </record>
+
+          <menuitem
+                id="menu_prestamos_dev1"
+                name="Devolución de préstamos a terceros"
+                parent="menu_prestamos_root"
+                sequence="3"
+                action="dev_action"
+        />
+
+    </data>
+</openerp>

@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="cp_wizard" model="ir.ui.view">
+            <field name="name">Envios a Farmacia San Jose</field>
+            <field name="model">wizard.envios</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Envios a Farmacia San Jose">
+                    <header>
+                        <button
+                                name="action_create_consumo"
+                                string="Enviar"
+                                type="object"
+                                class="oe_highlight"/>
+                        o
+                        <button
+                                type='special'
+                                special='cancel'
+                                string='Cancelar'
+                                class="oe_link"
+                        />
+
+
+                        <div class="oe_right oe_button_box">
+                            <button type="object"
+                                    name="action_lista_productos"
+                                    class="oe_stat_button"
+                                    string="Cargar Productos"
+                                    icon="fa-list-alt">
+                            </button>
+                        </div>
+
+                    </header>
+
+
+                    <group>
+
+
+
+
+                        <group>
+
+                            <field name="location_dest_readonly" invisible="1"/>
+                            <field name="sector_ids"
+                                   required="True" readonly="True"/>
+<!--                            <field name="sector_ids"-->
+<!--                                   required="True"-->
+<!--                                   widget="selection"-->
+<!--                                   options="{'no_quick_create':True,'no_create_edit': True}"-->
+
+<!--                            />-->
+                            <field
+                                    name="new_location_orig_id"
+                                    required="True"
+                                    widget="selection"
+                                    options="{'no_quick_create':True,'no_create_edit': True}"
+                                    string="Origen"/>
+
+                            <field name="new_location_dest_id" string="Destino" required="True" readonly="True"/>
+<!--                                   required="True"-->
+<!--                                   widget="selection"-->
+<!--                                   options="{'no_quick_create':True,'no_create_edit': True}"-->
+<!--                                   string="Registrar en"/>-->
+
+                            <field name="move_lines" string="Productos">
+                                <tree editable="bottom"  create="true"  options="{'no_open':True,'no_quick_create':True,'no_create_edit': True}">
+                                    <field name="product_id" options="{'no_open':True,'no_quick_create':True,'no_create_edit': True}" string="Producto" readonly="0"/>
+<!--                                    <field name="lote_id"-->
+<!--                                           options="{'no_open':True,'no_quick_create':True,'no_create_edit': True}"-->
+<!--                                           domain="[('product_id','=?', product_id)]" context="{'product_id': product_id}"-->
+<!--                                    />-->
+                                    <field name="stock" string="Cantidad Actual" readonly="1" invisible="1" />
+                                    <field name="stock_bak" string="Cantidad Actual BAK" invisible="1" />
+                                    <field name="product_uom_qty" string="Cantidad a enviar"/>
+                                </tree>
+                            </field>
+
+
+                        </group>
+
+                    </group>
+
+                       <field name="note" nolabel="1" placeholder="Notas (detalle de Lote , Motivo del envio)"/>
+
+                </form>
+            </field>
+        </record>
+
+        <!-- ***************************************************************************** -->
+
+        <record id="envios_action" model="ir.actions.act_window">
+            <field name="name">Envios a Farmacia San Jose</field>
+            <field name="res_model">wizard.envios</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="cp_wizard"/>
+            <field name="target">new</field>
+        </record>
+
+
+        <menuitem
+                id="menu_envios"
+                name="Envios a Farmacia San Jose"
+                parent="stock.menu_stock_warehouse_mgmt"
+                sequence="5"
+                action="envios_action"
+        />
+
+
+    </data>
+</openerp>

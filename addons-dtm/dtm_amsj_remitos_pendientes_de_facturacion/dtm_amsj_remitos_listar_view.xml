@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+        <record model="ir.ui.view" id="dtm_amsj_remitos_listar_view">
+            <field name="name">Remitos Pendientes de Facturación</field>
+            <field name="model">dtm.amsj.remitos.listar</field>
+             <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Remitos Pendientes" create="false" delete="false" edit="false" version="7.0">
+
+                    <field name = 'order_name'/>
+                    <field name = 'default_code'/>
+                    <field name = 'producto_id'/>
+                    <field name = 'product_qty'/>
+                    <field name = 'proveedor_id'/>
+                    <field name = 'invoiced_qty'/>
+                    <field name = 'price_unit'/>
+                    <button name="ver_orden"  type="object" icon="gtk-go-forward" class="oe_highlight" />
+
+                </tree>
+            </field>
+        </record>
+
+
+        <!-- SEARCH -->
+        <record id="dtm_amsj_remitos_listar_serch" model="ir.ui.view">
+            <field name="name">Remitos Pendientes</field>
+            <field name="model">dtm.amsj.remitos.listar</field>
+            <field name="arch" type="xml">
+                <search string="Buscar por..">
+
+                    <field name="order_name" string="Remito" />
+<!--                     <field name="producto_id" string="por Producto"/>
+                    <field name="proveedor_id" string="por Proveedor"/> -->
+                    <separator/>
+
+                </search>
+            </field>
+        </record>
+
+
+
+        <record id="action_dtm_amsj_remitos_listar" model="ir.actions.act_window">
+            <field name="name">Remitos Pendientes de Facturación</field>
+            <field name="res_model">dtm.amsj.remitos.listar</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree</field>
+         </record>
+
+
+
+       <!--   <menuitem name="Remitos Pendientes"
+                  action="action_dtm_amsj_remitos_listar"
+                  id="menu_remitos_pendientes_"
+                  parent="dtm_amsj_remitos_pendientes_de_facturacion.menu_remitos_pendientes"
+                  sequence="16"/>-->
+
+    </data>
+</openerp>
+
+

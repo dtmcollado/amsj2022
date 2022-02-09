@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+
+        <record model="ir.ui.view" id="amsj_seguridad_botones_stock_picking">
+            <field name="name">Seguridad Botones</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="stock.view_picking_form"/>
+            <field name="arch" type="xml">
+                <!-- booleano que verifica si el usuario que creo la transferencia
+                es el mismo que esta logueado -->
+                <field name="name" position="after">
+                    <field name="es_usuario" invisible="1"/>
+                    <field name="ultimo_cambio_btn_revertir" invisible="1"/>
+
+                </field>
+
+                <!-- si se cumple la condicion oculta -->
+<!--                <xpath expr="//button[@name='action_cancel']" position="attributes">-->
+<!--                    <attribute name="states"></attribute>-->
+<!--                    <attribute name="attrs">{'invisible':[('es_usuario','=',False)]}</attribute>-->
+<!--                </xpath>-->
+
+<!--                <xpath expr="//button[@name='do_unreserve']" position="attributes">-->
+<!--                    <attribute name="groups">dtm_amsj_seguridad.group_amsj_farmacia,base.group_user</attribute>-->
+<!--                </xpath>-->
+
+
+                <xpath expr="//button[@name='action_cancel']" position="attributes">
+                    <attribute name="attrs">{'invisible':[('es_usuario','!=',True)]}</attribute>
+                </xpath>
+
+<!--                por_consumo     por_extraordinario-->
+
+                 <!-- si se cumple la condicion oculta -->
+<!--                <xpath expr="//button[@name='action_assign']" position="attributes">-->
+<!--                    <attribute name="attrs">{'invisible':[('por_extraordinario','=',True),]}</attribute>-->
+<!--                </xpath>-->
+
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="amsj_seguridad_botones_stock_picking_2">
+            <field name="name">Seguridad Botones</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="stock_account.view_picking_inherit_form2"/>
+            <field name="arch" type="xml">
+                <xpath expr="//button[@string='Create Invoice']" position="attributes">
+                    <attribute name="groups">dtm_amsj_seguridad.group_amsj_facturadores</attribute>
+                </xpath>
+
+
+
+            </field>
+        </record>
+
+         <record model="ir.ui.view" id="amsj_seguridad_botones_stock_inventory">
+            <field name="name">Seguridad Botones</field>
+            <field name="model">stock.inventory</field>
+            <field name="inherit_id" ref="stock.view_inventory_form"/>
+            <field name="arch" type="xml">
+            <xpath expr="//button[@name='action_done']" position="attributes">
+                        <attribute name="groups">dtm_amsj_seguridad.group_amsj_validar_inventario,stock.group_stock_manager</attribute>
+            </xpath>
+            </field>
+         </record>
+
+
+        <record id="view_invoice_supplier_seguridad_amsj" model="ir.ui.view">
+            <field name="name">account.invoice.seguridad.botones</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="account_voucher.view_invoice_supplier"/>
+            <field name="arch" type="xml">
+                <!--pagar-->
+                <xpath expr="//button[@name='invoice_pay_customer']" position="attributes">
+                    <attribute name="groups">dtm_amsj_seguridad.group_amsj_autorizantes_facturas</attribute>
+                </xpath>
+                <!--Validar-->
+                <xpath expr="//button[@name='invoice_open']" position="attributes">
+                    <attribute name="groups">dtm_amsj_seguridad.group_amsj_facturadores</attribute>
+                </xpath>
+            </field>
+        </record>
+
+
+
+        </data>
+    </openerp>

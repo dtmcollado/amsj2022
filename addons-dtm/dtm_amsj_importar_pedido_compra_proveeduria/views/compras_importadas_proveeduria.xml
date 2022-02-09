@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record model="ir.ui.view" id="view_dtm_amsj_compras_importadas_proveeduria_form">
+            <field name="name">dtm.amsj.compras.importadas.proveeduria.form</field>
+            <field name="model">dtm.amsj.compras.importadas.proveeduria</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+            <header>
+                <button name="purchase_confirm"
+                        string="Generar pedidos"
+                        type="object" class="oe_highlight"
+                        attrs="{'invisible': [('state', '=', 'generada')]}"
+                />
+                <field name="state" widget="statusbar" statusbar_colors='{"hrejected":"red"}'/>
+            </header>
+                <form string="CSV" version="7.0">
+                    <sheet string="Impo">
+                        <group colspan="4">
+                            <field name="name"/>
+                            <field name="date"/>
+                            <field name="origin"/>
+                        </group>
+                        <field name="line_ids">
+                            <tree editable="bottom" string="productos">
+                                <field name="name" string="Ref. Interna" />
+                                <field name="partner_id" />
+                                <field name="product_id"/>
+                                <field name="quantity"/>
+                                <field name="precio_unitario" />
+                            </tree>
+                        </field>
+                    </sheet>
+
+                </form>
+            </field>
+        </record>
+
+        <!-- VISTA TREE  -->
+        <record model="ir.ui.view" id="view_importar_csv_proveeduria_tree">
+            <field name="name">dtm.amsj.compras.importadas.proveeduria.tree</field>
+            <field name="model">dtm.amsj.compras.importadas.proveeduria</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Importadas" delete="false" create="false">
+                    <field name="name" string="Referencia/Descripción"/>
+                    <field name="date"/>
+                    <field name="origin" string="Secuencia de importación"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- ACCION  -->
+        <record model="ir.actions.act_window" id="action_proveeduria_csv">
+            <field name="name">Compras Centralizadas</field>
+            <field name="res_model">dtm.amsj.compras.importadas.proveeduria</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+
+        <menuitem
+                name="Compras Mensuales de Proveeduría"
+                id="amsj_menu_proveeduria_csv"
+                parent="purchase.menu_procurement_management"
+                sequence="14"
+        />
+        <menuitem
+                name="Compras Mensuales de Proveeduría"
+                id="amsj_menu_proveeduria_gral"
+                action="action_proveeduria_csv"
+                parent="amsj_menu_proveeduria_csv"
+                sequence="1"
+        />
+
+         <menuitem action="amsj_gen_inv_wizard_proveeduria_action"
+                  id="amsj_gen_inv_wizard_proveeduria"
+                  name="Importar Planilla CSV"
+                  sequence="2"
+                  parent="amsj_menu_proveeduria_csv" />
+
+
+
+
+
+    </data>
+</openerp>

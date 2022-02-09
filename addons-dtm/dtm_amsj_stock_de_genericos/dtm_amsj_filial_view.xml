@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+        <record model="ir.ui.view" id="ubicacion_filial_tree_view">
+            <field name="name">Stock</field>
+            <field name="model">dtm.amsj.stock.maximo.filial</field>
+             <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Stock"
+                      create="false" delete="false" edit="false" version="7.0"
+                      >
+                   <field name="product_id"/>
+                    <field name="product_tmpl_id"/>
+<!--                   <field name= 'principio_activo_id'/>-->
+<!--                   <field name= 'forma_farmaceutica_id'/>-->
+<!--                   <field name= 'concentracion_valor'/>-->
+<!--                   <field name= 'concentracion_unidad'/>-->
+                   <field name= 'stock_maximo'/>
+                    <field name='stock_actual'/>
+<!--                    <field name= 'ubicacion_id'/>-->
+
+                </tree>
+            </field>
+        </record>
+
+
+
+       <record id="action_stock_de_genericos" model="ir.actions.act_window">
+            <field name="name">Stock por Sector</field>
+            <field name="res_model">dtm.amsj.stock.maximo.filial</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree</field>
+         </record>
+
+
+
+    </data>
+</openerp>
+
+
